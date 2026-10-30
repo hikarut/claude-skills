@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --main: #a100ff;      /* 強調・注釈・主役のデータ */
+    --main-mid: #d29bff;  /* 塗り（棒グラフの副系列など） */
+    --main-tint: #ecd6ff; /* ハイライト・表セル・トレンド矢印 */
+    --ink: #000;
+    --sub: #7f7f7f;
+    --dark-gray: #767676; /* 行見出しの塗り */
+    --line: #000;
+    --light-gray: #e6e6e6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 720px; background: #fff; overflow: hidden; }
+  body {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", "Yu Gothic", sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide { position: relative; width: 1280px; height: 720px; padding: 32px 48px 44px; display: flex; flex-direction: column; }
+
+  /* ヘッダー（タイトル → キーメッセージ） */
+  .header { padding-left: 16px; }
+  .title { font-size: 38px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
+  .key-message { margin-top: 8px; font-size: 20px; font-weight: 400; line-height: 1.45; }
+
+  /* コンテンツ */
+  .content { flex: 1; margin-top: 24px; display: flex; gap: 40px; min-height: 0; }
+  .panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .panel-head { text-align: center; font-size: 19px; font-weight: 400; padding-bottom: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+  .panel-body { flex: 1; position: relative; font-size: 16px; line-height: 1.5; }
+
+  /* 強調表現 */
+  .accent { color: var(--main); font-weight: 700; }          /* 図表上の注釈・要点 */
+  .hl { background: var(--main-tint); font-weight: 700; }   /* 本文中の蛍光ペン */
+  .note { color: var(--main); }                              /* 箇条書き内の重要語 */
+  ul.bullets { list-style: none; }
+  ul.bullets li { position: relative; padding-left: 1.1em; margin-bottom: 4px; }
+  ul.bullets li::before { content: "●"; position: absolute; left: 0; font-size: 0.6em; top: 0.45em; }
+  .num-sq { display: inline-flex; width: 28px; height: 28px; background: #000; color: #fff; font-weight: 700; font-size: 18px; align-items: center; justify-content: center; }
+  .num-circle { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--dark-gray); color: #fff; font-weight: 700; font-size: 14px; align-items: center; justify-content: center; }
+  .gray-box { background: var(--light-gray); padding: 12px 14px; }
+  .row-head { background: var(--dark-gray); color: #fff; font-weight: 700; }
+  .chevron { background: var(--main); color: #fff; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+  /* フッター */
+  .source { position: absolute; left: 48px; bottom: 14px; font-size: 12px; color: var(--sub); }
+  .page-info { position: absolute; right: 48px; bottom: 14px; font-size: 10px; color: var(--sub); }
+  .page-info .no { margin-left: 24px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="header">
+    <div class="title">{{スライドタイトル}}</div>
+    <div class="key-message">{{キーメッセージ}}</div>
+  </div>
+  <div class="content">
+    <div class="panel">
+      <div class="panel-head">{{パネル見出し}}</div>
+      <div class="panel-body">{{パネル内容}}</div>
+    </div>
+    <!-- 2カラムの場合は .panel をもう1つ並べる -->
+  </div>
+  <div class="source">出所：{{出所}}</div>
+  <div class="page-info">{{コピーライト}}<span class="no">{{ページ番号}}</span></div>
+</div>
+</body>
+</html>
