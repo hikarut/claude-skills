@@ -1,5 +1,5 @@
 ---
-name: consulting-slide
+name: ponchi-e
 description: 戦略コンサルタントが作成したようなポンチ絵（1枚に全体像をまとめた図解スライド）を16:9の画像（PNG）で作成する。上から順に「スライドタイトル → キーメッセージ → コンテンツ」の構成にし、メインカラーは#a100ff。unDrawのイラストやアイコンを使って分かりやすくする。「スライドを作って」「ポンチ絵にして」「資料を画像で」「1枚にまとめて」「全体像を図にして」と言われたときに使う。
 ---
 
@@ -54,8 +54,8 @@ HTML（1280×720）でスライドを組み、`scripts/render.py` で PNG（2560
 ## イラストとアイコン
 - **イラスト**：ステップや登場人物をイメージさせるために、カードごとに1点ずつ入れてよい。高さ80px前後に揃える。unDraw から英語キーワードで検索し、#a100ff に色を置き換えて保存する：
   ```bash
-  python3 ~/.claude/skills/consulting-slide/scripts/undraw.py search "data analysis"
-  python3 ~/.claude/skills/consulting-slide/scripts/undraw.py get <URL> <出力先>/il1.svg
+  python3 ~/.claude/skills/ponchi-e/scripts/undraw.py search "data analysis"
+  python3 ~/.claude/skills/ponchi-e/scripts/undraw.py get <URL> <出力先>/il1.svg
   ```
   HTML では `<img src="il1.svg">` のように相対パスで読み込む。
 - **アイコン**：Lucide のアイコンを、CSS で紫に着色して使う。アイコン名は https://lucide.dev/icons で確認する。
@@ -78,7 +78,7 @@ HTML（1280×720）でスライドを組み、`scripts/render.py` で PNG（2560
 3. `templates/base.html` をコピーして、`<style>` の部品を使いながらブロックを組む。使わない要素（核心メッセージの帯、コピーライトなど）は削除する。
 4. 書き出す：
    ```bash
-   python3 ~/.claude/skills/consulting-slide/scripts/render.py slide.html slide.png
+   python3 ~/.claude/skills/ponchi-e/scripts/render.py slide.html slide.png
    ```
 5. Read ツールで PNG を開いて確認し、問題があれば HTML を直して書き出し直す。確認項目：
    - はみ出し、文字の切れ、重なり、不自然な折り返しがないか（特にカード見出しとブロックの下端）

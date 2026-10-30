@@ -6,13 +6,13 @@ Claude Code で使う自作スキル集。
 
 | スキル | 概要 |
 |---|---|
-| [consulting-slide](consulting-slide/SKILL.md) | 戦略コンサルが作成したようなポンチ絵を 16:9 の画像（PNG）で作成する |
+| [ponchi-e](ponchi-e/SKILL.md) | 戦略コンサルが作成したようなポンチ絵を 16:9 の画像（PNG）で作成する |
 
-## consulting-slide
+## ponchi-e
 
 戦略コンサルタントが時間をかけて作ったようなポンチ絵（1枚に全体像をまとめた図解スライド）を、16:9 の PNG 画像として作成するスキル。
 
-「スライドを作って」「ポンチ絵にして」「1枚にまとめて」と頼むか、`/consulting-slide` で呼び出す。
+「スライドを作って」「ポンチ絵にして」「1枚にまとめて」と頼むか、`/ponchi-e` で呼び出す。
 
 ### スライドの構成
 1. **スライドタイトル**：左寄せの大きな太字。章ラベルは付けない
@@ -28,7 +28,7 @@ Claude Code で使う自作スキル集。
 
 ### ファイル構成
 ```
-consulting-slide/
+ponchi-e/
 ├── SKILL.md              # 構成・部品の使い方・デザインルール・手順
 ├── templates/base.html   # スライドの雛形と部品の CSS（1280×720）
 └── scripts/
@@ -46,7 +46,7 @@ consulting-slide/
 
 ```bash
 git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
-ln -s ~/github/claude-skills/consulting-slide ~/.claude/skills/consulting-slide
+ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
 pip install playwright && playwright install chromium
 ```
 
