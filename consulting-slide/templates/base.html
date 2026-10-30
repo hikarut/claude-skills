@@ -4,51 +4,89 @@
 <meta charset="utf-8">
 <style>
   :root {
-    --main: #a100ff;      /* 強調・注釈・主役のデータ */
-    --main-mid: #d29bff;  /* 塗り（棒グラフの副系列など） */
-    --main-tint: #ecd6ff; /* ハイライト・表セル・トレンド矢印 */
-    --ink: #000;
-    --sub: #7f7f7f;
-    --dark-gray: #767676; /* 行見出しの塗り */
-    --line: #000;
-    --light-gray: #e6e6e6;
+    --main: #a100ff;       /* ラベル帯・バッジ・矢印・核心の塗り */
+    --main-dark: #6b00b0;  /* 見出し文字・強調テキスト */
+    --main-mid: #d29bff;   /* 線・補助の塗り */
+    --main-tint: #f0e0ff;  /* 核心カードの背景・タグ */
+    --main-pale: #f8f2ff;  /* ブロックの背景 */
+    --main-line: #e2c6ff;  /* ブロック・カードの枠線 */
+    --ink: #1a1a1a;
+    --sub: #666;
+    --gray-bg: #eeeeee;
+    --gray-line: #d0d0d0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1280px; height: 720px; background: #fff; overflow: hidden; }
   body {
     font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", "Yu Gothic", sans-serif;
-    color: var(--ink);
+    color: var(--ink); font-size: 12px; line-height: 1.45;
     -webkit-font-smoothing: antialiased;
   }
-  .slide { position: relative; width: 1280px; height: 720px; padding: 32px 48px 44px; display: flex; flex-direction: column; }
+  .slide { position: relative; width: 1280px; height: 720px; padding: 20px 24px 28px; display: flex; flex-direction: column; gap: 8px; }
 
   /* ヘッダー（タイトル → キーメッセージ） */
   .header { padding-left: 16px; }
   .title { font-size: 38px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
   .key-message { margin-top: 8px; font-size: 20px; font-weight: 400; line-height: 1.45; }
 
-  /* コンテンツ */
-  .content { flex: 1; margin-top: 24px; display: flex; gap: 40px; min-height: 0; }
-  .panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-  .panel-head { text-align: center; font-size: 19px; font-weight: 400; padding-bottom: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
-  .panel-body { flex: 1; position: relative; font-size: 16px; line-height: 1.5; }
+  /* ブロック：ラベル帯付きの区画。.slide 直下に並べる（横並びは .row で包む） */
+  .row { display: flex; gap: 8px; min-height: 0; }
+  .block { flex: 1; background: var(--main-pale); border: 1px solid var(--main-line); border-radius: 6px; padding: 0 10px 8px; min-width: 0; display: flex; flex-direction: column; }
+  .block-head { display: flex; align-items: center; gap: 10px; margin: 0 -10px 8px; border-bottom: 1px solid var(--main-line); }
+  .label { background: var(--main); color: #fff; font-weight: 800; font-size: 15px; padding: 4px 26px 4px 12px; border-radius: 5px 0 0 0; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); white-space: nowrap; }
+  .label-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .label-sub::before { content: "― "; color: var(--sub); }
 
-  /* 強調表現 */
-  .accent { color: var(--main); font-weight: 700; }          /* 図表上の注釈・要点 */
-  .hl { background: var(--main-tint); font-weight: 700; }   /* 本文中の蛍光ペン */
-  .note { color: var(--main); }                              /* 箇条書き内の重要語 */
+  /* カード・バッジ・タグ */
+  .card { background: #fff; border: 1px solid var(--main-line); border-radius: 6px; padding: 8px 10px; min-width: 0; }
+  .card.core { background: var(--main-tint); border: 2px solid var(--main); }         /* 核心となる要素 */
+  .card-title { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 14px; font-weight: 800; color: var(--main-dark); }
+  .card-title small { font-size: 11px; font-weight: 700; margin-left: -4px; }
+  .badge { flex: none; display: inline-flex; width: 30px; height: 30px; border-radius: 50%; background: var(--main); color: #fff; font-weight: 800; font-size: 17px; align-items: center; justify-content: center; }
+  .badge.sm { width: auto; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; }
+  .badge.outline { background: #fff; color: var(--main); border: 2px solid var(--main); }
+  .kanji { flex: none; margin-left: auto; background: var(--main); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 3px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; background: var(--main-dark); color: #fff; font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .tag.light { background: var(--main-tint); color: var(--main-dark); }
+  .ribbon { position: absolute; background: var(--main); color: #fff; font-weight: 800; font-size: 13px; padding: 3px 12px; border-radius: 12px; text-align: center; line-height: 1.3; }
+
+  /* 矢印 */
+  .arrow { flex: none; width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 16px solid var(--main); align-self: center; }
+  .arrow.sm { border-top-width: 7px; border-bottom-width: 7px; border-left-width: 9px; }
+  .arrow.down { border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 16px solid var(--main); border-bottom: 0; }
+  .loop { border: 2px solid var(--main-mid); border-top: 0; border-radius: 0 0 10px 10px; height: 12px; margin: 0 40px; position: relative; text-align: center; }
+  .loop span { position: relative; top: 2px; background: var(--main-pale); padding: 0 8px; font-size: 11.5px; color: var(--main-dark); font-weight: 700; }
+
+  /* アイコン（Lucide を紫で表示）：<i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/mail.svg)"></i> */
+  .icon { display: inline-block; width: 18px; height: 18px; background: var(--main); -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; flex: none; }
+  .icon.w { background: #fff; }
+  .icon-circle { flex: none; display: inline-flex; width: 34px; height: 34px; border-radius: 50%; background: var(--main-tint); align-items: center; justify-content: center; }
+
+  /* 箇条書き・強調 */
   ul.bullets { list-style: none; }
-  ul.bullets li { position: relative; padding-left: 1.1em; margin-bottom: 4px; }
-  ul.bullets li::before { content: "●"; position: absolute; left: 0; font-size: 0.6em; top: 0.45em; }
-  .num-sq { display: inline-flex; width: 28px; height: 28px; background: #000; color: #fff; font-weight: 700; font-size: 18px; align-items: center; justify-content: center; }
-  .num-circle { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--dark-gray); color: #fff; font-weight: 700; font-size: 14px; align-items: center; justify-content: center; }
-  .gray-box { background: var(--light-gray); padding: 12px 14px; }
-  .row-head { background: var(--dark-gray); color: #fff; font-weight: 700; }
-  .chevron { background: var(--main); color: #fff; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  ul.bullets li { position: relative; padding-left: 1em; }
+  ul.bullets li::before { content: "●"; position: absolute; left: 0; font-size: 0.6em; top: 0.5em; color: var(--ink); }
+  ul.checks { list-style: none; }
+  ul.checks li { position: relative; padding-left: 1.3em; }
+  ul.checks li::before { content: "✓"; position: absolute; left: 0; color: var(--main); font-weight: 800; }
+  .em { color: var(--main-dark); font-weight: 700; }
+
+  /* 比較表 */
+  table.cmp { width: 100%; border-collapse: collapse; background: #fff; font-size: 11.5px; }
+  table.cmp th, table.cmp td { border-bottom: 1px solid var(--gray-line); padding: 2px 8px; text-align: left; }
+  table.cmp th { width: 26%; background: var(--gray-bg); font-weight: 700; }
+  table.cmp.to-be th { background: var(--main-tint); color: var(--main-dark); }
+  .steps { display: flex; gap: 4px; align-items: center; margin-bottom: 6px; }
+  .step { flex: 1; background: var(--gray-bg); border-radius: 4px; text-align: center; font-size: 11px; font-weight: 700; padding: 2px 0; line-height: 1.25; }
+  .step small { display: block; font-weight: 400; font-size: 9.5px; color: var(--sub); }
+
+  /* 核心メッセージの帯（最下段） */
+  .core-band { display: flex; align-items: center; gap: 14px; background: var(--main-dark); color: #fff; border-radius: 4px; padding: 6px 14px; font-size: 13.5px; font-weight: 700; }
+  .core-band b { font-size: 14.5px; padding-right: 14px; border-right: 1px solid rgba(255,255,255,.6); white-space: nowrap; }
 
   /* フッター */
-  .source { position: absolute; left: 48px; bottom: 14px; font-size: 12px; color: var(--sub); }
-  .page-info { position: absolute; right: 48px; bottom: 14px; font-size: 10px; color: var(--sub); }
+  .source { position: absolute; left: 28px; bottom: 8px; font-size: 10px; color: var(--sub); }
+  .page-info { position: absolute; right: 28px; bottom: 8px; font-size: 10px; color: var(--sub); }
   .page-info .no { margin-left: 24px; }
 </style>
 </head>
@@ -58,13 +96,14 @@
     <div class="title">{{スライドタイトル}}</div>
     <div class="key-message">{{キーメッセージ}}</div>
   </div>
-  <div class="content">
-    <div class="panel">
-      <div class="panel-head">{{パネル見出し}}</div>
-      <div class="panel-body">{{パネル内容}}</div>
-    </div>
-    <!-- 2カラムの場合は .panel をもう1つ並べる -->
+
+  <!-- 例：ブロック1つ分。ブロックを縦に積み、横並びにしたい場合は <div class="row"> で包む -->
+  <div class="block">
+    <div class="block-head"><span class="label">{{ブロック名}}</span><span class="label-sub">{{ブロックの説明}}</span></div>
+    {{ブロックの中身}}
   </div>
+
+  <div class="core-band"><b>核心メッセージ</b>{{核心メッセージ}}</div>
   <div class="source">出所：{{出所}}</div>
   <div class="page-info">{{コピーライト}}<span class="no">{{ページ番号}}</span></div>
 </div>
