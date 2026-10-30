@@ -1,0 +1,37 @@
+<!-- パターン: hub（中心の円から放射状に要素が広がる図）
+     中心＝主役の概念、周囲の円＝構成要素、左右のグレーパネル＝それぞれの立場から見た価値。
+     パネルは「アイコン＋ピル → 説明文 → 点線 → 小見出し＋箇条書き」の順で補足情報を足す -->
+<style>
+  .side { position: absolute; top: 52px; width: 300px; height: 420px; padding: 26px 28px; }
+  .side::after { content: ""; position: absolute; top: 50%; transform: translateY(-50%); border-top: 26px solid transparent; border-bottom: 26px solid transparent; }
+  .side.l { left: 0; }  .side.l::after { right: -22px; border-left: 22px solid var(--gray-bg); }
+  .side.r { right: 0; } .side.r::after { left: -22px; border-right: 22px solid var(--gray-bg); }
+  .side-head { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+  .side p { font-size: 17px; line-height: 1.8; }
+  .side-sub { margin-top: 18px; padding-top: 14px; border-top: 2px dashed #d6d6d6; font-size: 15px; }
+  .side-sub b { display: block; font-size: 14px; color: var(--sub); margin-bottom: 4px; }
+  .spokes { position: absolute; left: 0; top: 0; }
+  .spokes line { stroke: #999; stroke-width: 2.5; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">顧客データをつなぐ“ハブ”としてのデジタルツイン</div>
+    <div class="key-message">散らばった顧客データを1人単位で統合し仮想顧客として再現することで、部門をまたいだ意思決定の共通基盤になる</div>
+  </div>
+  <div class="content">
+    <div class="side soft-gray l">
+      <div class="side-head"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/megaphone.svg)"></i><span class="pill" style="flex:1">マーケティング部門</span></div>
+      <p>施策を仮想顧客で事前に試せるため、<span class="em">効果の高い打ち手だけ</span>を実行できる。失敗する施策は、本番前に除外できる。</p>
+      <div class="side-sub"><b>主な活用</b><ul class="dots"><li>キャンペーンの事前比較</li><li>解約しそうな顧客の抽出</li><li>配信タイミングの最適化</li></ul></div>
+    </div>
+    <svg class="spokes" width="1184" height="530"><line x1="592" y1="154" x2="592" y2="107"/><line x1="668" y1="186" x2="702" y2="152"/><line x1="700" y1="262" x2="747" y2="262"/><line x1="668" y1="338" x2="702" y2="372"/><line x1="592" y1="370" x2="592" y2="417"/><line x1="516" y1="338" x2="482" y2="372"/><line x1="484" y1="262" x2="437" y2="262"/><line x1="516" y1="186" x2="482" y2="152"/></svg>
+    <div class="hub" style="position:absolute;left:484px;top:154px;width:216px;height:216px;font-size:30px;line-height:1.2">Customer<br>Twin</div>
+    <div class="node" style="left:545px;top:13px;width:94px;height:94px">属性</div><div class="node" style="left:688px;top:72px;width:94px;height:94px">購買履歴</div><div class="node" style="left:747px;top:215px;width:94px;height:94px">Web行動</div><div class="node" style="left:688px;top:358px;width:94px;height:94px">アプリ利用</div><div class="node" style="left:545px;top:417px;width:94px;height:94px">問い合わせ</div><div class="node" style="left:402px;top:358px;width:94px;height:94px">アンケート</div><div class="node" style="left:343px;top:215px;width:94px;height:94px">店舗来店</div><div class="node" style="left:402px;top:72px;width:94px;height:94px">広告接触</div>
+    <div class="side soft-gray r">
+      <div class="side-head"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/briefcase.svg)"></i><span class="pill" style="flex:1">経営・事業部門</span></div>
+      <p>価格改定や新商品の影響を、<br><span class="em">売上や解約率の変化</span>として<br>事前に把握できる。<br>勘に頼らず判断できる。</p>
+      <div class="side-sub"><b>主な活用</b><ul class="dots"><li>価格改定の影響試算</li><li>新商品の需要予測</li><li>投資判断の根拠づくり</li></ul></div>
+    </div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">1</span></div>
+</div>

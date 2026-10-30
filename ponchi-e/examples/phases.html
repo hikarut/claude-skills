@@ -1,0 +1,36 @@
+<!-- パターン: phases（矢羽根で工程を並べるタイムライン）
+     上から「期間バー → 矢羽根 → 各工程の内容」。本題の期間は紫の矢羽根＋淡い紫の面、
+     前工程は淡色、後工程はグレーの矢羽根にして強弱をつける。列の区切りは縦の点線。
+     最下段に各工程の成果物を、同じ幅の白いタグで揃えて置く -->
+<style>
+  .col-text { position: absolute; width: 192px; text-align: center; font-size: 18px; line-height: 1.75; }
+  .dur { position: absolute; width: 192px; text-align: center; font-size: 15px; }
+  .deliv { position: absolute; top: 456px; height: 54px; background: #fff; border: 1.5px solid #cfcfcf; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .deliv-label { font-size: 11px; font-weight: 700; color: var(--sub); }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">デジタルツイン導入の進め方</div>
+    <div class="key-message">事前準備で課題と対象領域を見極めたうえで、12ヶ月かけて段階的にツインを構築・展開する</div>
+  </div>
+  <div class="content">
+    <div class="soft" style="position:absolute;left:392px;top:16px;width:596px;bottom:0;border-radius:0"></div>
+    <div class="span" style="position:absolute;left:0;top:0;width:390px;color:#e2dcef"><span class="pill pale round" style="color:var(--ink)">事前準備</span></div>
+    <div class="span" style="position:absolute;left:396px;top:0;width:588px;color:var(--main)"><span class="pill main round">デジタルツイン構築プラン</span></div>
+    <div class="span" style="position:absolute;left:990px;top:0;width:192px;color:#ccc"><span class="pill round" style="background:#ccc;color:var(--ink)">継続支援</span></div>
+    <div class="chev pale" style="position:absolute;left:0px;top:38px;width:192px">現状診断</div><div class="chev pale" style="position:absolute;left:198px;top:38px;width:192px">ワークショップ</div><div class="chev " style="position:absolute;left:396px;top:38px;width:192px">1〜3ヶ月目</div><div class="chev " style="position:absolute;left:594px;top:38px;width:192px">4〜6ヶ月目</div><div class="chev " style="position:absolute;left:792px;top:38px;width:192px">7〜12ヶ月目</div><div class="chev gray" style="position:absolute;left:990px;top:38px;width:192px">定着支援</div><div class="dashed-v" style="position:absolute;left:194.0px;top:96px;height:420px"></div><div class="dashed-v" style="position:absolute;left:392.0px;top:96px;height:420px"></div><div class="dashed-v" style="position:absolute;left:590.0px;top:96px;height:420px"></div><div class="dashed-v" style="position:absolute;left:788.0px;top:96px;height:420px"></div><div class="dashed-v" style="position:absolute;left:986.0px;top:96px;height:420px"></div>
+    <div class="dur" style="left:0px;top:96px">（2週間）</div>
+    <div class="dur" style="left:198px;top:96px">（半日×2回）</div>
+    <div style="position:absolute;left:0px;top:150px;width:192px;text-align:center"><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/ear.svg);width:40px;height:40px"></i></div>
+    <div style="position:absolute;left:198px;top:150px;width:192px;display:flex;justify-content:center;align-items:center;gap:10px"><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users-round.svg);width:36px;height:36px"></i><span style="color:#888">⟷</span><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/presentation.svg);width:36px;height:36px"></i></div>
+    <div class="col-text" style="left:0px;top:236px">顧客データの<br>保有状況と<br>活用上の課題を<br>ヒアリング</div>
+    <div class="col-text" style="left:198px;top:236px">関係部門と<br>ツインで解きたい<br>問いと対象領域を<br>決める</div>
+    <div class="outline" style="position:absolute;left:396px;top:96px;width:192px;height:44px;line-height:40px;font-size:18px">データ統合</div><div class="arrow-up" style="position:absolute;left:491.0px;top:150px;height:22px"></div><div class="outline" style="position:absolute;left:594px;top:96px;width:192px;height:44px;line-height:40px;font-size:18px">ツイン構築</div><div class="arrow-up" style="position:absolute;left:689.0px;top:150px;height:22px"></div><div class="outline" style="position:absolute;left:792px;top:96px;width:192px;height:44px;line-height:40px;font-size:18px">全社展開</div><div class="arrow-up" style="position:absolute;left:887.0px;top:150px;height:22px"></div>
+    <div class="outline" style="position:absolute;left:396px;top:176px;width:588px;height:84px;display:flex;flex-direction:column;justify-content:center;font-size:18px;line-height:1.55">月2回の定例と随時の伴走支援<br>（データ整備・モデル検証・施策設計の壁打ち）</div>
+    <div style="position:absolute;left:396px;top:290px;width:192px;text-align:center;font-size:18px;line-height:1.75">顧客データを<br>1人単位で統合し<br>分析できる状態に</div><div style="position:absolute;left:594px;top:290px;width:192px;text-align:center;font-size:18px;line-height:1.75">解約防止など<br>限定領域でツインを<br>構築して精度を検証</div><div style="position:absolute;left:792px;top:290px;width:192px;text-align:center;font-size:18px;line-height:1.75">主要な施策を<br>すべてツインで<br>事前検証する</div><div style="position:absolute;left:583.0px;top:318px;width:0;height:0;border-left:14px solid #d0d0d0;border-top:20px solid transparent;border-bottom:20px solid transparent"></div><div style="position:absolute;left:781.0px;top:318px;width:0;height:0;border-left:14px solid #d0d0d0;border-top:20px solid transparent;border-bottom:20px solid transparent"></div>
+    <div style="position:absolute;left:990px;top:150px;width:192px;display:flex;justify-content:center;gap:18px"><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/chart-line.svg);width:36px;height:36px"></i><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/chart-column.svg);width:36px;height:36px"></i></div>
+    <div class="col-text" style="left:990px;top:236px">構築後も<br>予測精度の<br>モニタリングと<br>適用領域の拡大を<br>支援</div>
+    <div class="deliv" style="left:12px;width:168px"><span class="deliv-label">成果物</span>現状診断レポート</div><div class="deliv" style="left:210px;width:168px"><span class="deliv-label">成果物</span>対象領域の定義書</div><div class="deliv" style="left:408px;width:168px"><span class="deliv-label">成果物</span>統合データ基盤</div><div class="deliv" style="left:606px;width:168px"><span class="deliv-label">成果物</span>解約予測モデル</div><div class="deliv" style="left:804px;width:168px"><span class="deliv-label">成果物</span>施策シミュレーター</div><div class="deliv" style="left:1002px;width:168px"><span class="deliv-label">成果物</span>月次モニタリング</div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">4</span></div>
+</div>

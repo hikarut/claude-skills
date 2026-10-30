@@ -1,0 +1,46 @@
+<!-- パターン: levels（ピラミッドを背景に、レベル・段階と対象者／プランを対応させる図）
+     左＝レベル名と星・説明、右＝レベル帯ごとの対象と提供内容。主役の帯は淡い紫の面＋紫のブロック、
+     それ以外はグレーの面＋淡いブロック。帯の境目は点線、範囲は縦の両矢印で示す -->
+<style>
+  .zone { position: absolute; left: 0; right: 0; }
+  .zone.main { background: rgba(243,232,255,.75); border-top: 2px dashed var(--main); }
+  .zone.base { background: #f7f7f7; border-top: 2px dashed #bbb; }
+  .pyramid { position: absolute; left: -20px; top: 0; }
+  .lv { position: absolute; left: 30px; width: 220px; height: 76px; background: rgba(240,240,240,.9); border-radius: 10px; text-align: center; padding-top: 6px; }
+  .lv-name { font-size: 24px; font-weight: 800; line-height: 1.3; }
+  .lv-stars { font-size: 14px; letter-spacing: 2px; }
+  .lv-desc { position: absolute; left: 282px; width: 440px; display: flex; align-items: center; font-size: 18px; font-weight: 700; line-height: 1.55; }
+  .sep { position: absolute; left: 10px; width: 720px; border-top: 2px dashed #ddd; }
+  .who { position: absolute; left: 820px; right: 0; display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; }
+  .plan { position: absolute; left: 820px; right: 0; height: 76px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; text-align: center; line-height: 1.35; }
+  .vline { position: absolute; width: 3px; }
+  .vline::before, .vline::after { content: ""; position: absolute; left: -6px; border-left: 7.5px solid transparent; border-right: 7.5px solid transparent; }
+  .vline::before { top: -2px; border-bottom: 11px solid currentColor; }
+  .vline::after { bottom: -2px; border-top: 11px solid currentColor; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">データ活用の成熟度とデジタルツインの位置づけ</div>
+    <div class="key-message">レベル2までは基盤整備で到達でき、レベル3以上はツインの構築によって施策の事前検証まで進められる</div>
+  </div>
+  <div class="content">
+    <div class="zone main" style="top:108px;height:184px"></div>
+    <div class="zone base" style="top:292px;height:184px"></div>
+    <svg class="pyramid" width="780" height="476"><polygon points="390,0 0,476 780,476" fill="#e9e9e9" opacity=".45"/></svg>
+    <div class="lv" style="top:24px"><div class="lv-name">レベル5</div><div class="lv-stars">★★★★★</div></div>
+<div class="lv-desc" style="top:16px;height:92px">ツインで全施策を事前に検証し、<br>意思決定の標準になっている</div><div class="lv" style="top:116px"><div class="lv-name">レベル4</div><div class="lv-stars">★★★★☆</div></div>
+<div class="lv-desc" style="top:108px;height:92px">一部の領域でツインを構築し、<br>施策への反応を予測できる</div><div class="sep" style="top:108px"></div><div class="lv" style="top:208px"><div class="lv-name">レベル3</div><div class="lv-stars">★★★☆☆</div></div>
+<div class="lv-desc" style="top:200px;height:92px">顧客データが1人単位で統合され、<br>行動を横断して分析できる</div><div class="sep" style="top:200px"></div><div class="lv" style="top:300px"><div class="lv-name">レベル2</div><div class="lv-stars">★★☆☆☆</div></div>
+<div class="lv-desc" style="top:292px;height:92px">部門ごとにデータを集計し、<br>定型レポートを作れる</div><div class="sep" style="top:292px"></div><div class="lv" style="top:392px"><div class="lv-name">レベル1</div><div class="lv-stars">★☆☆☆☆</div></div>
+<div class="lv-desc" style="top:384px;height:92px">顧客データが部門ごとに<br>散在している</div><div class="sep" style="top:384px"></div>
+    <div class="soft-gray" style="position:absolute;left:820px;right:0;top:28px;height:60px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800">社内で自走し、適用領域を広げていく</div>
+    <div style="position:absolute;left:988px;top:92px;width:0;height:0;border-bottom:16px solid #e2e2e2;border-left:14px solid transparent;border-right:14px solid transparent"></div>
+    <div class="vline" style="left:772px;top:122px;height:156px;background:var(--main);color:var(--main)"></div>
+    <div class="vline" style="left:796px;top:306px;height:156px;background:#bbb;color:#bbb"></div>
+    <div class="who" style="top:126px"><i class="icon main" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/user-round.svg)"></i>マーケティング部門・データ部門</div>
+    <div class="plan" style="top:172px;background:var(--main);color:#fff">デジタルツイン<br>構築プラン</div>
+    <div class="who" style="top:310px"><i class="icon " style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users-round.svg)"></i>全社のデータ管理部門</div>
+    <div class="plan" style="top:356px;background:#e6d6fa;color:var(--ink)">データ基盤整備プラン</div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">3</span></div>
+</div>

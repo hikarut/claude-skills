@@ -1,0 +1,68 @@
+<!-- パターン: flow（左の円 → 中央パネル＋帯矢印 → 右の円 ＋ 下段の補足帯）
+     左の円＝インプット、中央＝主役のサービス・仕組み（上に名前と3ステップ、帯矢印、下に結論1行）、右の円＝アウトプット。
+     下段は点線で区切り、左・中央・右の要素の真下にそれぞれの補足（データの種類、活用シーン、効果など）を置く -->
+<style>
+  .ring-l, .ring-r { position: absolute; top: 108px; width: 280px; height: 280px; gap: 12px; }
+  .ring-l { left: 20px; } .ring-r { right: 20px; }
+  .ring-title { font-size: 21px; font-weight: 800; line-height: 1.45; }
+  .ring-l img, .ring-r img { height: 96px; }
+  .center { position: absolute; left: 296px; width: 592px; top: 0; height: 392px; text-align: center; z-index: 1; }
+  .center > * { position: absolute; left: 0; right: 0; }
+  .center-name { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 32px; font-weight: 800; color: #2b2b2b; letter-spacing: -0.01em; white-space: nowrap; }
+  .logo { width: 48px; height: 48px; border-radius: 50%; background: var(--main); display: flex; align-items: center; justify-content: center; }
+  .logo .icon { width: 26px; height: 26px; }
+  .center-text { font-size: 17px; font-weight: 700; line-height: 1.6; }
+  .steps3 { display: flex; justify-content: center; align-items: flex-start; gap: 10px; }
+  .st { width: 150px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .st-circle { width: 50px; height: 50px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 2px; }
+  .st-circle .icon { width: 26px; height: 26px; }
+  .st-name { font-size: 17px; font-weight: 800; line-height: 1.2; }
+  .st-desc { font-size: 14px; line-height: 1.4; color: #555; }
+  .st-arrow { margin-top: 17px; width: 0; height: 0; border-left: 11px solid #bbb; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+  .band { position: absolute; left: 300px; width: 580px; top: 210px; height: 72px; z-index: 2; }
+  .band-label { font-size: 26px; font-weight: 800; color: var(--main); }
+  .band .icon { width: 26px; height: 26px; }
+  .strip { position: absolute; top: 412px; height: 112px; border-top: 2px dashed var(--line); padding-top: 14px; }
+  .strip-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .strip-head .pill { font-size: 13px; padding: 1px 14px; }
+  .strip ul.dots { font-size: 15px; line-height: 1.6; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">カスタマーデジタルツインの概要</div>
+    <div class="key-message">顧客一人ひとりを仮想空間に再現し、施策を事前に試すことで、効果が見込める施策だけを届けられる</div>
+  </div>
+  <div class="content">
+    <div class="ring ring-l"><div class="ring-title">社内に散らばる<br>顧客データ</div><img src="il_collect.svg"></div>
+    <div class="center soft">
+      <div class="center-name" style="top:20px"><span class="logo"><i class="icon w" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users-round.svg);"></i></span>Customer Digital Twin</div>
+      <div class="steps3" style="top:84px">
+        <div class="st"><span class="st-circle"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/database.svg);"></i></span><span class="st-name" style="">集める</span><span class="st-desc">データを<br>1人単位で統合</span></div><span class="st-arrow"></span>
+        <div class="st"><span class="st-circle"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/bot.svg);"></i></span><span class="st-name" style="">写す</span><span class="st-desc">AIが行動・嗜好を<br>学習して再現</span></div><span class="st-arrow"></span>
+        <div class="st"><span class="st-circle"><i class="icon main" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/flask-conical.svg);"></i></span><span class="st-name" style="color:var(--main)">試す</span><span class="st-desc">施策への反応を<br>事前に予測</span></div>
+      </div>
+      <div class="arrow-down" style="top:290px;left:50%;margin-left:-1px"></div>
+      <div class="center-text" style="top:330px">効果が見込める施策を選んでから実行する</div>
+    </div>
+    <div class="band band-arrow">
+      <i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users.svg);"></i>
+      <span class="band-label">仮想顧客で事前シミュレーション</span>
+      <i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/chart-line.svg);"></i>
+    </div>
+    <div class="ring ring-r"><div class="ring-title">一人ひとりに<br>最適な施策</div><img src="il_act.svg"></div>
+
+    <div class="strip" style="left:0;width:300px">
+      <div class="strip-head"><span class="pill">主なデータ</span></div>
+      <span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/user.svg);width:18px;height:18px"></i>属性</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/shopping-cart.svg);width:18px;height:18px"></i>購買履歴</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/mouse-pointer-click.svg);width:18px;height:18px"></i>Web・アプリ行動</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/headset.svg);width:18px;height:18px"></i>問い合わせ</span>
+    </div>
+    <div class="strip" style="left:316px;width:552px">
+      <div class="strip-head"><span class="pill main">主な活用シーン</span></div>
+      <span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/package.svg);width:18px;height:18px"></i>新商品の需要予測</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/tag.svg);width:18px;height:18px"></i>価格改定の影響試算</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/user-x.svg);width:18px;height:18px"></i>解約予兆の検知</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/route.svg);width:18px;height:18px"></i>顧客体験の改善</span><span class="chip"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/megaphone.svg);width:18px;height:18px"></i>キャンペーン設計</span>
+    </div>
+    <div class="strip" style="left:884px;width:300px">
+      <div class="strip-head"><span class="pill">得られる効果</span></div>
+      <ul class="dots"><li>施策の打率が上がる</li><li>不要な顧客接触を減らせる</li><li>意思決定が速くなる</li></ul>
+    </div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">2</span></div>
+</div>
