@@ -2,12 +2,15 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" href="theme.css">
 <style>
+  /* メインカラー（--main）は theme.css で指定する。以下の濃淡はメインカラーから自動で作る */
   :root {
-    --main: #a100ff;       /* 主役の塗り（中心の円・本題の矢羽根・強調語） */
-    --main-dark: #7a00c2;  /* 強調テキスト */
-    --tint: #f3e8ff;       /* 本題エリアの淡い面 */
-    --tint-2: #faf6ff;     /* さらに淡い面・帯矢印 */
+    --main-dark: color-mix(in srgb, var(--main) 76%, #000);    /* 強調テキスト */
+    --tint: color-mix(in srgb, var(--main) 10%, #fff);         /* 本題エリアの淡い面 */
+    --tint-2: color-mix(in srgb, var(--main) 5%, #fff);        /* さらに淡い面・帯矢印 */
+    --tint-3: color-mix(in srgb, var(--main) 17%, #fff);       /* 淡い面より一段濃い面 */
+    --tint-line: color-mix(in srgb, var(--main) 12%, #d8d8d8); /* 淡い線 */
     --ink: #333;           /* 本文 */
     --sub: #777;           /* 補足・注記 */
     --gray-bg: #f0f0f0;    /* 補助パネル・前後工程の面 */
@@ -62,7 +65,7 @@
 
   /* 矢羽根（工程の見出し）：.chev = 本題、.chev.pale = 前工程、.chev.gray = 後工程 */
   .chev { display: flex; align-items: center; justify-content: center; height: 44px; padding-right: 14px; background: var(--main); color: #fff; font-weight: 800; font-size: 19px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); }
-  .chev.pale { background: var(--tint-2); color: var(--ink); background: #f2ecfb; }
+  .chev.pale { background: color-mix(in srgb, var(--main) 8%, #fff); color: var(--ink); }
   .chev.gray { background: var(--gray); color: var(--ink); }
 
   /* 期間バー：両端矢印付きの線の中央にピルを置く */

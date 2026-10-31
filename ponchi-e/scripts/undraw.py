@@ -2,16 +2,22 @@
 """unDraw illustration search / download (recolored to the slide main color).
 
   undraw.py search <keyword>          # list title and URL of matches (English keywords)
-  undraw.py get <url> <out.svg> [--color #a100ff]
+  undraw.py get <url> <out.svg> [--color #RRGGBB]
+  undraw.py recolor <in.svg> <out.svg> [--color #RRGGBB]   # recolor a saved illustration (e.g. examples/il_*.svg)
+
+--color defaults to the main color in theme.css.
 """
 import json
+import pathlib
 import re
 import subprocess
 import sys
 import urllib.parse
 
 UNDRAW_DEFAULT = "#6c63ff"  # unDraw default accent color
-MAIN_COLOR = "#a100ff"
+EXAMPLE_COLOR = "#a100ff"   # color of the saved example illustrations
+THEME = pathlib.Path(__file__).resolve().parent.parent / "theme.css"
+MAIN_COLOR = re.search(r"--main:\s*(#[0-9a-fA-F]{3,8})", THEME.read_text(encoding="utf-8")).group(1)
 
 
 def fetch(url):
@@ -26,8 +32,8 @@ def search(keyword):
         print(f"{item['title']}\t{item['media']}")
 
 
-def get(url, out, color=MAIN_COLOR):
-    svg = re.sub(UNDRAW_DEFAULT, color, fetch(url), flags=re.IGNORECASE)
+def save(svg, out, color):
+    svg = re.sub(f"{UNDRAW_DEFAULT}|{EXAMPLE_COLOR}", color, svg, flags=re.IGNORECASE)
     with open(out, "w", encoding="utf-8") as f:
         f.write(svg)
     print(out)
@@ -37,8 +43,9 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if len(args) >= 2 and args[0] == "search":
         search(" ".join(args[1:]))
-    elif len(args) >= 3 and args[0] == "get":
+    elif len(args) >= 3 and args[0] in ("get", "recolor"):
         color = args[args.index("--color") + 1] if "--color" in args else MAIN_COLOR
-        get(args[1], args[2], color)
+        svg = fetch(args[1]) if args[0] == "get" else pathlib.Path(args[1]).read_text(encoding="utf-8")
+        save(svg, args[2], color)
     else:
         sys.exit(__doc__)
