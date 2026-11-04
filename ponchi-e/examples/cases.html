@@ -3,11 +3,11 @@
      画像はユーザーから受け取った写真・スクリーンショット・書影などを白い枠に入れる（ない場合はイラストで代用）。
      最下段に成果などの共通の観点を揃えて置く -->
 <style>
-  .case { position: absolute; top: 12px; width: 376px; height: 486px; background: var(--gray-bg); }
+  .case { position: absolute; top: 12px; width: 376px; height: 486px; background: var(--gray-bg); border-radius: var(--r); overflow: hidden; }
   .case-h { height: 58px; background: var(--pill); color: #fff; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 22px; font-weight: 800; }
   .case-h small { font-size: 14px; font-weight: 700; opacity: .75; }
   .case p { padding: 18px 24px 0; font-size: 16px; line-height: 1.75; height: 104px; }
-  .case-img { margin: 10px 24px 0; height: 210px; background: #fff; border: 1px solid #e2e2e2; display: flex; align-items: center; justify-content: center; }
+  .case-img { margin: 10px 24px 0; height: 210px; background: #fff; border: 1px solid #e2e2e2; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; }
   .case-img img { height: 170px; }
   .case-kpi { margin: 18px 24px 0; padding-top: 14px; border-top: 2px dashed #d0d0d0; display: flex; align-items: baseline; justify-content: center; gap: 14px; }
   .case-kpi .pill { font-size: 13px; padding: 1px 14px; transform: translateY(-4px); }

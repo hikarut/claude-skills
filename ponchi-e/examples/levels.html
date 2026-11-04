@@ -3,16 +3,18 @@
      それ以外はグレーの面＋淡いブロック。帯の境目は点線、範囲は縦の両矢印で示す -->
 <style>
   .zone { position: absolute; left: 0; right: 0; }
+  .zone.main { border-radius: var(--r) var(--r) 0 0; }
+  .zone.base { border-radius: 0 0 var(--r) var(--r); }
   .zone.main { background: rgba(243,232,255,.75); border-top: 2px dashed var(--main); }
   .zone.base { background: #f7f7f7; border-top: 2px dashed #bbb; }
   .pyramid { position: absolute; left: -20px; top: 0; }
-  .lv { position: absolute; left: 30px; width: 220px; height: 76px; background: rgba(240,240,240,.9); border-radius: 10px; text-align: center; padding-top: 6px; }
+  .lv { position: absolute; left: 30px; width: 220px; height: 76px; background: rgba(240,240,240,.9); border-radius: var(--r-sm); text-align: center; padding-top: 6px; }
   .lv-name { font-size: 24px; font-weight: 800; line-height: 1.3; }
   .lv-stars { font-size: 14px; letter-spacing: 2px; }
   .lv-desc { position: absolute; left: 282px; width: 440px; display: flex; align-items: center; font-size: 18px; font-weight: 700; line-height: 1.55; }
   .sep { position: absolute; left: 10px; width: 720px; border-top: 2px dashed #ddd; }
   .who { position: absolute; left: 820px; right: 0; display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; }
-  .plan { position: absolute; left: 820px; right: 0; height: 76px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; text-align: center; line-height: 1.35; }
+  .plan { position: absolute; left: 820px; right: 0; height: 76px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; text-align: center; line-height: 1.35; }
   .vline { position: absolute; width: 3px; }
   .vline::before, .vline::after { content: ""; position: absolute; left: -6px; border-left: 7.5px solid transparent; border-right: 7.5px solid transparent; }
   .vline::before { top: -2px; border-bottom: 11px solid currentColor; }

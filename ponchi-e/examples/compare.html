@@ -1,11 +1,11 @@
 <!-- パターン: compare（2〜3案の比較表）
-     列＝比較する案、行＝比較の観点。おすすめの案だけメインカラーの見出し＋淡色の面、
+     列＝比較する案、行＝比較の観点。おすすめの案だけメインカラーの見出し＋淡色の面、列ごとに外側の角だけ丸める。
      もう一方はグレーの見出し＋ごく淡いグレーの面にする。行の区切りは点線、補足は※で表の下に置く -->
 <style>
   .cmp-name { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 26px; font-weight: 800; color: #2b2b2b; margin-bottom: 14px; }
   .cmp { display: grid; grid-template-columns: 170px 1fr 1fr; column-gap: 20px; }
   .cmp > div { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
-  .cmp .h { height: 54px; border-radius: 14px 14px 0 0; font-size: 20px; font-weight: 800; position: relative; }
+  .cmp .h { height: 54px; border-radius: var(--r) var(--r) 0 0; font-size: 20px; font-weight: 800; position: relative; }
   .cmp .h.a { background: var(--gray); }
   .cmp .h.b { background: var(--main); color: #fff; }
   .cmp .h .rec { position: absolute; top: -14px; right: 18px; background: #fff; color: var(--main); border: 2px solid var(--main); border-radius: 999px; font-size: 13px; font-weight: 800; padding: 0 12px; line-height: 22px; }
@@ -15,6 +15,7 @@
   .cmp .ca { background: #f7f7f7; }
   .cmp .cb { background: var(--tint); }
   .cmp .last { border-bottom: none; }
+  .cmp .ca.last, .cmp .cb.last { border-radius: 0 0 var(--r) var(--r); }
   .cmp .big { font-size: 22px; font-weight: 800; }
   .cmp .note { font-size: 14px; color: var(--sub); margin-left: 8px; }
   .cmp-foot { margin-top: 12px; font-size: 14px; color: var(--sub); }
@@ -22,7 +23,7 @@
 <div class="slide">
   <div class="header">
     <div class="title">デジタルツイン導入の2つのプラン</div>
-    <div class="key-message">まず効果を確かめるなら「スモールスタートプラン」、全社の意思決定に組み込むなら<br><span class="em">「全社展開プラン」</span>がおすすめ</div>
+    <div class="key-message">まず効果を確かめるなら「スモールスタートプラン」、全社の意思決定に組み込むなら<span class="em">「全社展開プラン」</span>がおすすめ</div>
   </div>
   <div class="content">
     <div class="cmp-name"><i class="icon main" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users-round.svg)"></i>Customer Digital Twin</div>

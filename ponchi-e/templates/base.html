@@ -17,6 +17,8 @@
     --gray: #d9d9d9;       /* 補助の円・矢印 */
     --line: #c8c8c8;       /* 点線・細線 */
     --pill: #3a3a3a;       /* ラベル（ピル） */
+    --r: 16px;             /* 角丸：面・カード・パネル */
+    --r-sm: 8px;           /* 角丸：小さな箱・ラベル・見出し帯・画像枠 */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1280px; height: 720px; background: #fff; overflow: hidden; }
@@ -28,9 +30,9 @@
   .slide { position: relative; width: 1280px; height: 720px; padding: 32px 48px 40px; display: flex; flex-direction: column; }
 
   /* ヘッダー（タイトル → キーメッセージ）：フォーマット固定 */
-  .header { padding-left: 16px; color: #1a1a1a; }
+  .header { padding: 0 16px; color: #1a1a1a; }
   .title { font-size: 38px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
-  .key-message { margin-top: 8px; font-size: 20px; font-weight: 400; line-height: 1.45; }
+  .key-message { margin-top: 8px; font-size: 20px; font-weight: 400; line-height: 1.45; word-break: auto-phrase; }  /* <br> は入れず、右端まで使って文節の切れ目で自然に折り返す */
 
   /* コンテンツ：1枚1メタファーの図を置く領域（position:relative なので絶対配置も可） */
   .content { position: relative; flex: 1; margin-top: 28px; min-height: 0; }
@@ -38,6 +40,7 @@
   /* テキスト */
   .em { color: var(--main); font-weight: 700; }                 /* 本文中の強調語 */
   .strong { font-weight: 700; }
+  .nw { white-space: nowrap; }                                   /* 途中で改行させたくない語句 */
   .small { font-size: 13px; color: var(--sub); }
   ul.dots { list-style: none; }
   ul.dots li { position: relative; padding-left: 1em; }
@@ -48,13 +51,13 @@
   .pill.main { background: var(--main); }
   .pill.pale { background: var(--tint); color: var(--ink); }
   .pill.round { border-radius: 999px; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gray-bg); border-radius: 6px; padding: 3px 10px; font-size: 14px; font-weight: 700; margin: 0 6px 6px 0; }  /* 補足のラベル（アイコン可） */
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gray-bg); border-radius: var(--r-sm); padding: 3px 10px; font-size: 14px; font-weight: 700; margin: 0 6px 6px 0; }  /* 補足のラベル（アイコン可） */
   .chip .icon { width: 18px; height: 18px; background: #666; }
 
-  /* 面・枠 */
-  .soft { background: var(--tint); border-radius: 20px; }        /* 本題エリア */
-  .soft-gray { background: var(--gray-bg); }                     /* 補助パネル */
-  .outline { background: #fff; border: 2px solid var(--main); text-align: center; }
+  /* 面・枠：角丸は --r（面）と --r-sm（小さな箱）の2種類に統一する */
+  .soft { background: var(--tint); border-radius: var(--r); }        /* 本題エリア */
+  .soft-gray { background: var(--gray-bg); border-radius: var(--r); }                     /* 補助パネル */
+  .outline { background: #fff; border: 2px solid var(--main); border-radius: var(--r-sm); text-align: center; }
   .ring { border: 2px solid #ececec; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .dashed-h { border-top: 2px dashed var(--line); }
   .dashed-v { border-left: 2px dashed #e0e0e0; }
