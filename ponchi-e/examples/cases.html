@@ -1,0 +1,44 @@
+<!-- パターン: cases（同じ重みの3項目を、見出し＋説明＋画像のカードで並べる）
+     導入事例・実績・プロフィール・活動紹介など。見出しは濃いグレーの帯、本文はグレーの面。
+     画像はユーザーから受け取った写真・スクリーンショット・書影などを白い枠に入れる（ない場合はイラストで代用）。
+     最下段に成果などの共通の観点を揃えて置く -->
+<style>
+  .case { position: absolute; top: 12px; width: 376px; height: 486px; background: var(--gray-bg); }
+  .case-h { height: 58px; background: var(--pill); color: #fff; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 22px; font-weight: 800; }
+  .case-h small { font-size: 14px; font-weight: 700; opacity: .75; }
+  .case p { padding: 18px 24px 0; font-size: 16px; line-height: 1.75; height: 104px; }
+  .case-img { margin: 10px 24px 0; height: 210px; background: #fff; border: 1px solid #e2e2e2; display: flex; align-items: center; justify-content: center; }
+  .case-img img { height: 170px; }
+  .case-kpi { margin: 18px 24px 0; padding-top: 14px; border-top: 2px dashed #d0d0d0; display: flex; align-items: baseline; justify-content: center; gap: 14px; }
+  .case-kpi .pill { font-size: 13px; padding: 1px 14px; transform: translateY(-4px); }
+  .case-kpi .lbl { font-size: 17px; font-weight: 700; }
+  .case-kpi .num { font-size: 34px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.01em; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">カスタマーデジタルツインの導入事例</div>
+    <div class="key-message">業種を問わず、施策を事前に検証することで、<span class="em">購買率や解約率などの主要指標</span>を改善している</div>
+  </div>
+  <div class="content">
+    <div class="case" style="left:0">
+      <div class="case-h">小売A社<small>EC・店舗</small></div>
+      <p>会員300万人の購買データを統合。<br>クーポン施策をツインで比較し、<br>配信する対象を絞り込んだ。</p>
+      <div class="case-img"><img src="il_retail.svg" alt=""></div>
+      <div class="case-kpi"><span class="pill">成果</span><span class="lbl">購買率</span><span class="num">1.4倍</span></div>
+    </div>
+    <div class="case" style="left:404px">
+      <div class="case-h">通信B社<small>モバイル</small></div>
+      <p>解約の予兆がある顧客をツインで抽出。<br>引き止め施策を事前に検証してから<br>実行した。</p>
+      <div class="case-img"><img src="il_telecom.svg" alt=""></div>
+      <div class="case-kpi"><span class="pill">成果</span><span class="lbl">解約率</span><span class="num">−18%</span></div>
+    </div>
+    <div class="case" style="left:808px">
+      <div class="case-h">金融C社<small>リテール銀行</small></div>
+      <p>ライフイベントと取引履歴を学習。<br>商品を提案するタイミングを<br>顧客ごとに最適化した。</p>
+      <div class="case-img"><img src="il_finance.svg" alt=""></div>
+      <div class="case-kpi"><span class="pill">成果</span><span class="lbl">成約率</span><span class="num">1.6倍</span></div>
+    </div>
+  </div>
+  <div class="source">出所：導入企業へのヒアリングをもとに作成（お手本のため数値は架空）</div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">6</span></div>
+</div>

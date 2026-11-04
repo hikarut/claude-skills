@@ -1,0 +1,41 @@
+<!-- パターン: reasons（理由・ポイント・特長を3つ並べるカード）
+     上に「＜〜の3つの理由＞」の小見出し、カードは「番号付きの濃いグレーの見出し → 説明文 → アイコン → 点線 → 結論の一言」。
+     結論の一言でキーメッセージにつなげる。3つは同じ重みなので、メインカラーは結論のピルと強調語だけに使う -->
+<style>
+  .rs-cap { text-align: center; font-size: 18px; color: #555; margin-bottom: 16px; }
+  .rs { position: absolute; top: 46px; width: 376px; height: 446px; background: #f6f6f6; padding: 16px 16px 0; }
+  .rs-h { height: 84px; background: var(--pill); color: #fff; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 20px; font-weight: 800; line-height: 1.45; }
+  .rs p { padding: 20px 10px 0; font-size: 17px; line-height: 1.8; height: 146px; text-align: center; }
+  .rs .icon { display: block; margin: 8px auto 0; width: 52px; height: 52px; background: #444; }
+  .rs-out { margin: 20px 6px 0; padding-top: 16px; border-top: 2px dashed #d0d0d0; text-align: center; }
+  .rs-out .pill { font-size: 13px; padding: 1px 14px; }
+  .rs-out div { margin-top: 8px; font-size: 17px; font-weight: 700; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">カスタマーデジタルツインが求められる理由</div>
+    <div class="key-message">顧客の多様化と施策の複雑化により、<span class="em">実行前に効果を確かめる仕組み</span>が欠かせなくなっている</div>
+  </div>
+  <div class="content">
+    <div class="rs-cap">＜施策の事前検証が欠かせない3つの理由＞</div>
+    <div class="rs" style="left:0">
+      <div class="rs-h">① 顧客の行動が多様化し<br>平均像が通用しない</div>
+      <p>チャネルや購買のきっかけが<br>人によって異なり、<br>セグメント単位の施策では<br>反応が読みにくくなっている。</p>
+      <i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users.svg)"></i>
+      <div class="rs-out"><span class="pill main round">ツインなら</span><div>1人ひとりの反応を予測できる</div></div>
+    </div>
+    <div class="rs" style="left:404px">
+      <div class="rs-h">② 施策の組み合わせが増え<br>すべては試せない</div>
+      <p>価格・クーポン・配信時期などの<br>組み合わせが膨大で、<br>本番のABテストだけでは<br>検証が追いつかない。</p>
+      <i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/layers.svg)"></i>
+      <div class="rs-out"><span class="pill main round">ツインなら</span><div>数百案を仮想空間で比較できる</div></div>
+    </div>
+    <div class="rs" style="left:808px">
+      <div class="rs-h">③ 施策の失敗が<br>顧客離れに直結する</div>
+      <p>的外れな接触は、解約や<br>ブランドの毀損につながる。<br>一度失った顧客の信頼は、<br>取り戻すのが難しい。</p>
+      <i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/shield-alert.svg)"></i>
+      <div class="rs-out"><span class="pill main round">ツインなら</span><div>失敗する施策を本番前に除外できる</div></div>
+    </div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">7</span></div>
+</div>

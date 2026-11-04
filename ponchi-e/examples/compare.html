@@ -1,0 +1,40 @@
+<!-- パターン: compare（2〜3案の比較表）
+     列＝比較する案、行＝比較の観点。おすすめの案だけメインカラーの見出し＋淡色の面、
+     もう一方はグレーの見出し＋ごく淡いグレーの面にする。行の区切りは点線、補足は※で表の下に置く -->
+<style>
+  .cmp-name { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 26px; font-weight: 800; color: #2b2b2b; margin-bottom: 14px; }
+  .cmp { display: grid; grid-template-columns: 170px 1fr 1fr; column-gap: 20px; }
+  .cmp > div { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
+  .cmp .h { height: 54px; border-radius: 14px 14px 0 0; font-size: 20px; font-weight: 800; position: relative; }
+  .cmp .h.a { background: var(--gray); }
+  .cmp .h.b { background: var(--main); color: #fff; }
+  .cmp .h .rec { position: absolute; top: -14px; right: 18px; background: #fff; color: var(--main); border: 2px solid var(--main); border-radius: 999px; font-size: 13px; font-weight: 800; padding: 0 12px; line-height: 22px; }
+  .cmp .k, .cmp .ca, .cmp .cb { height: 66px; font-size: 17px; line-height: 1.5; border-bottom: 2px dashed #ddd; }
+  .cmp .k { font-weight: 700; justify-content: flex-start; padding-left: 18px; gap: 10px; }
+  .cmp .k .icon { width: 22px; height: 22px; background: #777; }
+  .cmp .ca { background: #f7f7f7; }
+  .cmp .cb { background: var(--tint); }
+  .cmp .last { border-bottom: none; }
+  .cmp .big { font-size: 22px; font-weight: 800; }
+  .cmp .note { font-size: 14px; color: var(--sub); margin-left: 8px; }
+  .cmp-foot { margin-top: 12px; font-size: 14px; color: var(--sub); }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">デジタルツイン導入の2つのプラン</div>
+    <div class="key-message">まず効果を確かめるなら「スモールスタートプラン」、全社の意思決定に組み込むなら<br><span class="em">「全社展開プラン」</span>がおすすめ</div>
+  </div>
+  <div class="content">
+    <div class="cmp-name"><i class="icon main" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users-round.svg)"></i>Customer Digital Twin</div>
+    <div class="cmp">
+      <div></div><div class="h a">スモールスタートプラン</div><div class="h b">全社展開プラン<span class="rec">おすすめ</span></div>
+      <div class="k"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/target.svg)"></i>対象範囲</div><div class="ca">1事業・1テーマ（例：解約防止）</div><div class="cb">全事業の主要な施策すべて</div>
+      <div class="k"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/calendar.svg)"></i>期間</div><div class="ca"><span class="big">3ヶ月</span></div><div class="cb"><span class="big">12ヶ月</span><span class="note">※3フェーズで段階的に展開</span></div>
+      <div class="k"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users.svg)"></i>体制</div><div class="ca">週1回の定例＋分析担当1名</div><div class="cb">月2回の定例＋専任チーム3〜5名</div>
+      <div class="k"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/wallet.svg)"></i>費用の目安</div><div class="ca"><span class="big">300万円〜</span></div><div class="cb"><span class="big">2,000万円〜</span></div>
+      <div class="k last"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/flag.svg)"></i>ゴール</div><div class="ca last">効果を検証し、<br>全社展開の判断材料をそろえる</div><div class="cb last">主要な施策をすべて<br>ツインで事前検証できる状態にする</div>
+    </div>
+    <div class="cmp-foot">※費用は、対象とする領域とデータの量によって変わります。</div>
+  </div>
+  <div class="page-info">©2026 Hikaru Takahashi<span class="no">5</span></div>
+</div>
