@@ -15,7 +15,7 @@ import sys
 import urllib.parse
 
 UNDRAW_DEFAULT = "#6c63ff"  # unDraw default accent color
-EXAMPLE_COLOR = "#a100ff"   # color of the saved example illustrations
+EXAMPLE_COLOR = "#3b5af4"   # color of the saved example illustrations
 THEME = pathlib.Path(__file__).resolve().parent.parent / "theme.css"
 MAIN_COLOR = re.search(r"--main:\s*(#[0-9a-fA-F]{3,8})", THEME.read_text(encoding="utf-8")).group(1)
 

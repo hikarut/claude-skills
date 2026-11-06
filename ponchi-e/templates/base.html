@@ -39,6 +39,7 @@
 
   /* テキスト */
   .em { color: var(--main); font-weight: 700; }                 /* 本文中の強調語 */
+  .key-message .em { white-space: nowrap; }                      /* キーメッセージの強調語は行をまたがせない */
   .strong { font-weight: 700; }
   .nw { white-space: nowrap; }                                   /* 途中で改行させたくない語句 */
   .small { font-size: 13px; color: var(--sub); }
@@ -95,7 +96,6 @@
   /* フッター */
   .source { position: absolute; left: 48px; bottom: 12px; font-size: 12px; color: var(--sub); }
   .page-info { position: absolute; right: 48px; bottom: 12px; font-size: 12px; color: var(--sub); }
-  .page-info .no { margin-left: 16px; }
 </style>
 </head>
 <body>
@@ -108,7 +108,7 @@
     {{コンテンツ：examples/ のパターンを参考に組む}}
   </div>
   <div class="source">出所：{{出所}}</div>
-  <div class="page-info">{{コピーライト}}<span class="no">{{ページ番号}}</span></div>
+  <div class="page-info">{{コピーライト}}</div>
 </div>
 </body>
 </html>
