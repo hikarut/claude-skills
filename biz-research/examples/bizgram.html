@@ -1,0 +1,118 @@
+<!-- パターン: bizgram（ビジネスモデル図解。3段×3列のマス目に主体を置き、5種類の矢印でつなぐ）
+     段：上から「利用者の段（誰に）」「事業の段（何を）」「事業者の段（誰が）」。中央の列 ①顧客 ②事業 ③事業者 と、事業の段の左右 ④重要な主体、左下 ⑤関係会社 は必ず埋める。
+     主体の座標は .content 左上からの中心座標。矢印は SVG の線、矢印の種類は線の中央の印（.mk）で示す。右のパネルに収益の仕組み・ポイント・起点/定説/逆説・凡例を置く -->
+<style>
+  .grid { position: absolute; left: 0; top: 0; width: 800px; height: 520px; }
+  .row-label { position: absolute; left: 0; width: 64px; font-size: 15px; font-weight: 800; color: #555; line-height: 1.3; }
+  .row-label small { display: block; font-size: 12px; font-weight: 400; color: var(--sub); }
+  .row-sep { position: absolute; left: 0; width: 800px; border-top: 2px dashed #e4e4e4; }
+  .ent { position: absolute; width: 150px; margin-left: -75px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; }
+  .ent .icon { width: 48px; height: 48px; background: #444; }
+  .ent .nm { margin-top: 4px; font-size: 16px; font-weight: 800; line-height: 1.3; background: #fff; padding: 0 4px; }
+  .ent.core .disc { width: 72px; height: 72px; border-radius: 50%; background: var(--main); display: flex; align-items: center; justify-content: center; }
+  .ent.core .disc .icon { width: 38px; height: 38px; background: #fff; }
+  .ent.core .nm { color: var(--main); }
+  .grid svg { position: absolute; left: 0; top: 0; z-index: 1; }
+  .lbl { position: absolute; font-size: 14px; line-height: 1.35; z-index: 2; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .lbl.v { transform: translateY(-50%); }
+  .lbl.h { transform: translateX(-50%); }
+  /* 矢印の種類を示す印：モノ＝丸、情報＝四角、カネ＝¥（メインカラー）、行為＝印なし、包含＝線の端の黒丸 */
+  .mk { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 16px; height: 16px; border: 1.5px solid #444; background: #fff; font-size: 10px; font-weight: 800; line-height: 1; }
+  .mk.mono { border-radius: 50%; background: var(--gray); }
+  .mk.info { border-radius: 3px; background: var(--gray-bg); }
+  .mk.kane { border-radius: 4px; border-color: var(--main); background: var(--main); color: #fff; }
+  .note { position: absolute; z-index: 2; background: var(--gray-bg); border-radius: var(--r-sm); padding: 6px 10px; font-size: 14px; line-height: 1.4; color: #555; }
+  .side { position: absolute; left: 832px; top: 0; width: 352px; height: 520px; padding: 20px 24px; }
+  .side .pill { font-size: 14px; padding: 2px 14px; }
+  .side .sec + .sec { margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--line); }
+  .formula { margin-top: 10px; font-size: 16px; font-weight: 700; line-height: 1.5; }
+  .side ul.dots { margin-top: 6px; font-size: 14px; line-height: 1.6; }
+  .para { display: grid; grid-template-columns: 52px 1fr; row-gap: 6px; column-gap: 10px; margin-top: 10px; font-size: 14px; align-items: center; }
+  .para .k { background: #fff; border-radius: var(--r-sm); text-align: center; font-weight: 800; padding: 1px 0; }
+  .para .k.main { background: var(--main); color: #fff; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">ミールキット宅配のビジネスモデル</div>
+    <div class="key-message">献立の提案と食材の配送をセットにした<span class="em">月額課金</span>で、共働き世帯の「献立を考える手間」ごと引き受けている</div>
+  </div>
+  <div class="content">
+    <div class="grid">
+      <div class="row-label" style="top:52px">利用者<small>誰に</small></div>
+      <div class="row-label" style="top:242px">事業<small>何を</small></div>
+      <div class="row-label" style="top:432px">事業者<small>誰が</small></div>
+      <div class="row-sep" style="top:172px"></div>
+      <div class="row-sep" style="top:352px"></div>
+
+      <svg width="800" height="520" viewBox="0 0 800 520">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#444"/></marker></defs>
+        <g stroke="#444" stroke-width="2" fill="none" marker-end="url(#ah)">
+          <path d="M425 122 V208"/>          <!-- アプリ → 世帯：献立の提案（情報） -->
+          <path d="M455 208 V122"/>          <!-- 世帯 → アプリ：月額料金（カネ） -->
+          <path d="M200 214 V70 H380"/>      <!-- 食材キット → 世帯：お届け（モノ） -->
+          <path d="M620 70 H500"/>           <!-- 法人 → 世帯：利用料の補助（カネ） -->
+          <path d="M500 262 H620"/>          <!-- アプリ → データ：嗜好がたまる（情報） -->
+          <path d="M200 404 V318"/>          <!-- 契約農家 → 食材キット：食材の供給（モノ） -->
+          <path d="M380 452 H262"/>          <!-- 運営会社 → 契約農家：仕入代金（カネ） -->
+          <path d="M425 316 V398"/>          <!-- 運営会社 → アプリ：運営（行為） -->
+          <path d="M455 398 V316"/>          <!-- アプリ → 運営会社：売上（カネ） -->
+          <path d="M500 452 H620"/>          <!-- 運営会社 → 配送パートナー：配送委託費（カネ） -->
+        </g>
+      </svg>
+
+      <div class="ent" style="left:440px;top:26px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/users.svg)"></i><span class="nm">共働き世帯</span></div>
+      <div class="ent" style="left:680px;top:26px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/building-2.svg)"></i><span class="nm">法人<br>（福利厚生）</span></div>
+      <div class="ent" style="left:200px;top:218px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/package.svg)"></i><span class="nm">食材キット</span></div>
+      <div class="ent core" style="left:440px;top:212px"><span class="disc"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/smartphone.svg)"></i></span><span class="nm">宅配アプリ</span></div>
+      <div class="ent" style="left:680px;top:218px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/database.svg)"></i><span class="nm">嗜好データ</span></div>
+      <div class="ent" style="left:200px;top:408px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/factory.svg)"></i><span class="nm">契約農家・工場</span></div>
+      <div class="ent" style="left:440px;top:408px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/building.svg)"></i><span class="nm">運営会社</span></div>
+      <div class="ent" style="left:680px;top:408px"><i class="icon" style="--i:url(https://unpkg.com/lucide-static@0.460.0/icons/truck.svg)"></i><span class="nm">配送パートナー</span></div>
+
+      <div class="lbl v" style="right:383px;top:165px"><span>献立の提案</span><span class="mk info"></span></div>
+      <div class="lbl v" style="left:463px;top:165px"><span class="mk kane">¥</span><span>月額 4,980円</span></div>
+      <div class="lbl h" style="left:290px;top:40px"><span class="mk mono"></span><span>週1回お届け</span></div>
+      <div class="lbl h" style="left:560px;top:40px"><span class="mk kane">¥</span><span>利用料を補助</span></div>
+      <div class="lbl h" style="left:560px;top:232px"><span class="mk info"></span><span>嗜好がたまる</span></div>
+      <div class="lbl v" style="left:208px;top:361px"><span class="mk mono"></span><span>食材の供給</span></div>
+      <div class="lbl h" style="left:321px;top:422px"><span class="mk kane">¥</span><span>仕入代金</span></div>
+      <div class="lbl v" style="right:383px;top:357px"><span>運営</span></div>
+      <div class="lbl v" style="left:463px;top:357px"><span class="mk kane">¥</span><span>売上</span></div>
+      <div class="lbl h" style="left:560px;top:422px"><span class="mk kane">¥</span><span>配送委託費</span></div>
+
+      <div class="note" style="left:606px;top:300px">献立の精度と<br>仕入量の予測に</div>
+      <div class="note" style="left:84px;top:112px">レシピ付き<br>20分で調理</div>
+    </div>
+
+    <div class="side soft-gray">
+      <div class="sec">
+        <span class="pill main">収益の仕組み</span>
+        <div class="formula">売上 ＝ 会員数 × 月額単価<br>× 継続月数</div>
+        <ul class="dots"><li>売上の9割が個人会員の月額料金</li><li>原価の大半は食材費と配送費</li></ul>
+      </div>
+      <div class="sec">
+        <span class="pill">ポイント</span>
+        <div class="para">
+          <span class="k">起点</span><span>平日の夕食づくり</span>
+          <span class="k">定説</span><span>献立は自分で考えて買う</span>
+          <span class="k main">逆説</span><span class="strong">献立ごと家に届く</span>
+        </div>
+      </div>
+      <div class="sec">
+        <span class="pill">主な数値</span>
+        <div class="para">
+          <span class="k">会員</span><span>20万人（月次解約率 3.2%）</span>
+          <span class="k">単価</span><span>年間 6.0万円／人</span>
+        </div>
+      </div>
+      <div class="sec">
+        <span class="pill">矢印の種類</span>
+        <div class="legend"><span><i class="mk mono"></i>モノ</span><span><i class="mk info"></i>情報</span><span><i class="mk kane">¥</i>カネ</span><span>印なし：行為</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="source">出所：お手本のため架空の事業・数値</div>
+  <div class="page-info">©2026 Hikaru Takahashi</div>
+</div>

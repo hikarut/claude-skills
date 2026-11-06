@@ -7,6 +7,7 @@ Claude Code で使う自作スキル集。
 | スキル | 概要 |
 |---|---|
 | [ponchi-e](ponchi-e/SKILL.md) | 戦略コンサルが作成したような洗練されたポンチ絵を 16:9 の画像（PNG）で作成する |
+| [biz-research](biz-research/SKILL.md) | 企業・業界のビジネスモデル図、KPIツリー、直近のニュースを調べ、ポンチ絵と HTML レポートにまとめる |
 
 ## ponchi-e
 
@@ -56,11 +57,32 @@ ponchi-e/
 - **依頼ごとに変える**：「メインカラーは #0a7d5a で」のように頼む。出力先にコピーされた `theme.css` だけが書き換わり、スキル本体はそのまま
 - **既定の色を変える**：`ponchi-e/theme.css` の `--main` を書き換える。淡い面や強調用の濃い色は、メインカラーから自動で作られる
 
+## biz-research
+
+指定した企業や業界のビジネスモデルを調査し、次の3つをポンチ絵（PNG）にして、1つの HTML レポート（`report.html`）にまとめるスキル。
+
+- **ビジネスモデル図**：[図解総研のビズグラム](https://note.com/bizgram/n/n5bde4d5402d1)のルール（3×3のマス目、主体・矢印・補足、モノ・情報・カネ・行為・包含の5種類の矢印）で描く
+- **KPIツリー**：売上（業界なら市場規模）を頂点に、具体的な数値付きでできるだけ深く分解する。推計値は計算式をレポートに書く
+- **直近のニュース**：直近3か月を中心に、日付・出所・示唆を付けてまとめる
+
+「〇〇社のビジネスモデルを調べて」「〇〇業界を調査して」と頼むか、`/biz-research` で呼び出す。ポンチ絵は ponchi-e スキルで作る（ponchi-e がなければ、図をレポートの中に HTML で直接描く）。
+
+### ファイル構成
+```
+biz-research/
+├── SKILL.md               # 調査の進め方・図のルール・レポートの構成・手順
+├── templates/report.html  # まとめの HTML レポートの雛形
+└── examples/              # 仕上がりの目安となるお手本（ponchi-e の base.html に入れて使う HTML と完成画像）
+    ├── bizgram.*          #   ビジネスモデル図（ビズグラム）
+    └── kpi-tree.*         #   KPIツリー
+```
+
 ## セットアップ
 
 ```bash
 git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
 ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
+ln -s ~/github/claude-skills/biz-research ~/.claude/skills/biz-research
 pip install playwright && playwright install chromium
 ```
 

@@ -1,0 +1,83 @@
+<!-- パターン: kpi-tree（左から右へ分解するKPIツリー＋右の示唆パネル）
+     頂点（売上など）を左に置き、掛け算・足し算で右へ分解する。各ノードは「指標名＋数値（時点）」。分解の記号（× ＋ −）は枝の分かれ目に置く。
+     いちばん効くレバー（主役）だけメインカラーの枠にする。推計値には「推計」のタグを付け、根拠は報告書に書く。
+     ノードの座標は .content 左上からの値（top は中心）。線は SVG の折れ線 -->
+<style>
+  .tree { position: absolute; left: 0; top: 0; width: 920px; height: 520px; }
+  .tree svg { position: absolute; left: 0; top: 0; }
+  .kn { position: absolute; transform: translateY(-50%); background: #fff; border: 1.5px solid var(--gray); border-radius: var(--r-sm); padding: 5px 12px; line-height: 1.3; z-index: 1; }
+  .kn .n { font-size: 14px; color: #555; white-space: nowrap; }
+  .kn .v { font-size: 18px; font-weight: 800; white-space: nowrap; }
+  .kn .v small { font-size: 13px; font-weight: 400; color: var(--sub); margin-left: 4px; }
+  .kn .tag { display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 700; color: #666; background: var(--gray-bg); border-radius: 4px; padding: 0 5px; vertical-align: 2px; }
+  .kn.root { background: var(--tint); border-color: var(--tint); padding: 10px 14px; }
+  .kn.root .v { font-size: 24px; }
+  .kn.key { border: 2px solid var(--main); }
+  .kn.key .v { color: var(--main); }
+  .op { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: #fff; border: 1.5px solid #999; font-size: 14px; font-weight: 800; line-height: 19px; text-align: center; color: #555; z-index: 2; }
+  .lv { position: absolute; top: -26px; font-size: 13px; color: var(--sub); }
+  .side { position: absolute; left: 944px; top: 0; width: 240px; height: 520px; padding: 20px 20px; }
+  .side .pill { font-size: 14px; padding: 2px 14px; }
+  .side .lead { margin-top: 10px; font-size: 16px; font-weight: 700; line-height: 1.5; }
+  .side ul.dots { margin-top: 8px; font-size: 14px; line-height: 1.6; }
+  .side .sec + .sec { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--line); }
+</style>
+<div class="slide">
+  <div class="header">
+    <div class="title">ミールキット宅配のKPIツリー</div>
+    <div class="key-message">売上120億円は会員数と単価の掛け算で決まり、最も効くレバーは<span class="em">入会初月の解約率</span>の引き下げである</div>
+  </div>
+  <div class="content">
+    <div class="tree">
+      <svg width="920" height="520" viewBox="0 0 920 520">
+        <g stroke="#bbb" stroke-width="1.5" fill="none">
+          <path d="M150 248 H180 V128 H210 M180 248 V368 H210"/>
+          <path d="M380 128 H410 V68 H440 M410 128 V188 H440"/>
+          <path d="M380 368 H410 V308 H440 M410 368 V428 H440"/>
+          <path d="M630 68 H660 V38 H690 M660 68 V98 H690"/>
+          <path d="M630 188 H660 V158 H690 M660 188 V218 H690"/>
+          <path d="M630 308 H660 V278 H690 M660 308 V338 H690"/>
+          <path d="M630 428 H660 V398 H690 M660 428 V458 H690"/>
+        </g>
+      </svg>
+      <span class="op" style="left:180px;top:248px">×</span>
+      <span class="op" style="left:410px;top:128px">±</span>
+      <span class="op" style="left:410px;top:368px">×</span>
+      <span class="op" style="left:660px;top:68px">＋</span>
+      <span class="op" style="left:660px;top:308px">＋</span>
+      <span class="op" style="left:660px;top:428px">×</span>
+
+      <div class="kn root" style="left:0;top:248px;width:150px"><div class="n">売上高</div><div class="v">120億円</div><div class="n">FY2025</div></div>
+
+      <div class="kn" style="left:210px;top:128px;width:170px"><div class="n">平均会員数</div><div class="v">20.0万人</div></div>
+      <div class="kn" style="left:210px;top:368px;width:170px"><div class="n">年間ARPU</div><div class="v">6.0万円</div></div>
+
+      <div class="kn" style="left:440px;top:68px;width:190px"><div class="n">新規会員数</div><div class="v">9.0万人<small>／年</small></div></div>
+      <div class="kn key" style="left:440px;top:188px;width:190px"><div class="n">月次解約率</div><div class="v">3.2%<small>前年 3.6%</small></div></div>
+      <div class="kn" style="left:440px;top:308px;width:190px"><div class="n">平均注文単価</div><div class="v">2,500円</div></div>
+      <div class="kn" style="left:440px;top:428px;width:190px"><div class="n">年間注文回数</div><div class="v">24回<small>／人</small></div></div>
+
+      <div class="kn" style="left:690px;top:38px;width:230px"><div class="n">広告経由<span class="tag">推計</span></div><div class="v">6.0万人<small>CPA 8,000円</small></div></div>
+      <div class="kn" style="left:690px;top:98px;width:230px"><div class="n">紹介経由<span class="tag">推計</span></div><div class="v">3.0万人<small>紹介率 15%</small></div></div>
+      <div class="kn key" style="left:690px;top:158px;width:230px"><div class="n">入会初月の解約率</div><div class="v">12%<small>業界平均 15%</small></div></div>
+      <div class="kn" style="left:690px;top:218px;width:230px"><div class="n">2か月目以降の解約率</div><div class="v">2.1%<small>／月</small></div></div>
+      <div class="kn" style="left:690px;top:278px;width:230px"><div class="n">基本キット</div><div class="v">2,100円<small>／回</small></div></div>
+      <div class="kn" style="left:690px;top:338px;width:230px"><div class="n">追加オプション<span class="tag">推計</span></div><div class="v">400円<small>付帯率 40%</small></div></div>
+      <div class="kn" style="left:690px;top:398px;width:230px"><div class="n">月間注文回数</div><div class="v">2.0回<small>／月</small></div></div>
+      <div class="kn" style="left:690px;top:458px;width:230px"><div class="n">年間の利用月数</div><div class="v">12か月</div></div>
+    </div>
+
+    <div class="side soft-gray">
+      <div class="sec">
+        <span class="pill main">注目のレバー</span>
+        <div class="lead">初月の解約率を<br>12% → 8% にすると<br>売上は約8億円増える</div>
+      </div>
+      <div class="sec">
+        <span class="pill">読み取れること</span>
+        <ul class="dots"><li>解約の4割が入会初月に集中</li><li>単価は横ばいで、<br>伸びは会員数が担う</li><li>広告依存が高く、<br>CPAは上昇傾向</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="source">出所：お手本のため架空の数値（「推計」は開示値からの試算）</div>
+  <div class="page-info">©2026 Hikaru Takahashi</div>
+</div>
