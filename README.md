@@ -2,12 +2,23 @@
 
 Claude Code で使う自作スキル集。
 
-## スキル一覧
+### スキル一覧
 
 | スキル | 概要 |
 |---|---|
 | [ponchi-e](ponchi-e/SKILL.md) | 戦略コンサルが作成したような洗練されたポンチ絵を 16:9 の画像（PNG）で作成する |
 | [biz-research](biz-research/SKILL.md) | 企業・業界のビジネスモデル図、KPIツリー、直近のニュースを調べ、ポンチ絵と HTML レポートにまとめる |
+
+### セットアップ
+
+```bash
+git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
+ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
+ln -s ~/github/claude-skills/biz-research ~/.claude/skills/biz-research
+pip install playwright && playwright install chromium
+```
+
+`~/.claude/skills/` にシンボリックリンクを置くので、リポジトリ側でスキルを修正すると Claude Code にもそのまま反映される。最新版への更新は `git pull` で行う。
 
 # ponchi-e
 
@@ -15,20 +26,20 @@ Claude Code で使う自作スキル集。
 
 「スライドを作って」「ポンチ絵にして」「1枚にまとめて」と頼むか、`/ponchi-e` で呼び出す。
 
-## スライドの構成
+### スライドの構成
 1. **スライドタイトル**：左寄せの大きな太字。章ラベルは付けない
 2. **キーメッセージ**：そのページの結論を1〜2行の文で書く（太字にしない）
 3. **コンテンツ**：内容に合った図を1つ置く（お手本の放射図・流れ図・レベル図・タイムライン・比較表・事例カード・3つの理由は仕上がりの目安で、形はこれらに限らない）
 4. **フッター**：右下にコピーライト（ページ番号は付けない）、数値を載せた場合は左下に出所
 
-## デザインの特徴
+### デザインの特徴
 - メインカラー（既定は `#3b5af4`）は主役だけに使い、それ以外はチャコール・グレー・メインカラーの淡色で描いて強弱をつける
 - 主役の図は1つに絞り、各要素の短い説明や下段の補足（データ・活用シーン・効果・成果物など）で具体性を出す
 - 余白を活かし、主要な説明は16〜18px、補足は14〜15pxで大きさに差をつける
 - [Lucide](https://lucide.dev/icons) のアイコンをグレーの細線で使い、必要なときだけ [unDraw](https://undraw.co/illustrations) のイラストをメインカラーに色を変えて添える
 - 情報の詰め込み、グラデーション、影、絵文字など、野暮ったく見える表現は使わない
 
-## ファイル構成
+### ファイル構成
 ```
 ponchi-e/
 ├── SKILL.md              # 構成・パターン・デザインルール・手順
@@ -47,13 +58,13 @@ ponchi-e/
     └── undraw.py         # unDraw イラストの検索・取得と色の置き換え（recolor で保存済みの SVG も置き換え）
 ```
 
-## 必要な環境
+### 必要な環境
 - Python 3 と Playwright（Chromium）
 - curl（unDraw からのイラスト取得に使用）
 - インターネット接続（Lucide のアイコンを CDN から読み込む）
 - 日本語フォント：ヒラギノ角ゴシック（macOS 標準）
 
-## メインカラーの変え方
+### メインカラーの変え方
 - **依頼ごとに変える**：「メインカラーは #0a7d5a で」のように頼む。出力先にコピーされた `theme.css` だけが書き換わり、スキル本体はそのまま
 - **既定の色を変える**：`ponchi-e/theme.css` の `--main` を書き換える。淡い面や強調用の濃い色は、メインカラーから自動で作られる
 
@@ -67,7 +78,7 @@ ponchi-e/
 
 「〇〇社のビジネスモデルを調べて」「〇〇業界を調査して」と頼むか、`/biz-research` で呼び出す。ポンチ絵は ponchi-e スキルで作る（ponchi-e がなければ、図をレポートの中に HTML で直接描く）。
 
-## ファイル構成
+### ファイル構成
 ```
 biz-research/
 ├── SKILL.md               # 調査の進め方・図のルール・レポートの構成・手順
@@ -77,13 +88,4 @@ biz-research/
     └── kpi-tree.*         #   KPIツリー
 ```
 
-# セットアップ
 
-```bash
-git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
-ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
-ln -s ~/github/claude-skills/biz-research ~/.claude/skills/biz-research
-pip install playwright && playwright install chromium
-```
-
-`~/.claude/skills/` にシンボリックリンクを置くので、リポジトリ側でスキルを修正すると Claude Code にもそのまま反映される。最新版への更新は `git pull` で行う。
