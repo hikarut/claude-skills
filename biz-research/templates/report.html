@@ -52,7 +52,7 @@
     <h1>{{対象名}} ビジネスモデル調査</h1>
     <div class="meta">調査日：{{YYYY-MM-DD}}　／　対象：{{企業 または 業界}}　／　主な出所：{{決算説明資料 FY20XX など}}</div>
   </header>
-  <nav><a href="#summary">要約</a><a href="#model">ビジネスモデル</a><a href="#kpi">KPIツリー</a><a href="#news">直近のニュース</a><a href="#sources">出所</a></nav>
+  <nav><a href="#summary">要約</a><a href="#model">ビジネスモデル</a><a href="#org">組織図</a><a href="#kpi">KPIツリー</a><a href="#news">直近のニュース</a><a href="#sources">出所</a></nav>
 
   <div class="summary" id="summary">
     <h2>要約</h2>
@@ -82,9 +82,25 @@
     </table>
   </section>
 
+  <!-- 組織図：企業の場合のみ。業界の場合はこのセクションと nav のリンクを削除し、以降の番号を詰める -->
+  <section id="org">
+    <h2>2. 組織図</h2>
+    <figure><img src="slide_02.png" alt="組織図"><figcaption>図2　{{図の説明}}</figcaption></figure>
+    <h3>部門・子会社の役割</h3>
+    <table>
+      <tr><th>部門・子会社</th><th>役割・担当事業</th><th>対応するセグメント</th><th>人数</th></tr>
+      <tr><td>{{}}</td><td>{{}}</td><td>{{}}</td><td class="num">{{}}</td></tr>
+    </table>
+    <h3>主な役員</h3>
+    <table>
+      <tr><th>役職</th><th>氏名</th><th>担当</th></tr>
+      <tr><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+    </table>
+  </section>
+
   <section id="kpi">
-    <h2>2. KPIツリー</h2>
-    <figure><img src="slide_02.png" alt="KPIツリー"><figcaption>図2　{{図の説明}}</figcaption></figure>
+    <h2>3. KPIツリー</h2>
+    <figure><img src="slide_03.png" alt="KPIツリー"><figcaption>図3　{{図の説明}}</figcaption></figure>
     <h3>KPIの数値と根拠</h3>
     <table>
       <tr><th>階層</th><th>指標</th><th>数値</th><th>時点</th><th>区分</th><th>根拠・計算式</th></tr>
@@ -93,8 +109,8 @@
   </section>
 
   <section id="news">
-    <h2>3. 直近のニュース</h2>
-    <figure><img src="slide_03.png" alt="直近のニュース"><figcaption>図3　{{図の説明}}</figcaption></figure>
+    <h2>4. 直近のニュース</h2>
+    <figure><img src="slide_04.png" alt="直近のニュース"><figcaption>図4　{{図の説明}}</figcaption></figure>
     <ul class="news">
       <li><span class="d">{{YYYY-MM-DD}}</span><span class="t"><a href="{{URL}}">{{見出し}}</a></span>（{{媒体}}）
         <div class="imp">{{要点}}　<b>示唆：</b>{{ビジネスモデル・KPIへの影響}}</div></li>
