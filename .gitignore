@@ -1,2 +1,4 @@
 .DS_Store
 __pycache__/
+x-post/data/posts.csv
+x-post/config.json

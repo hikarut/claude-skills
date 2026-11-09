@@ -8,6 +8,7 @@ Claude Code で使う自作スキル集。
 |---|---|
 | [ponchi-e](ponchi-e/SKILL.md) | 戦略コンサルが作成したような洗練されたポンチ絵を 16:9 の画像（PNG）で作成する |
 | [biz-research](biz-research/SKILL.md) | 企業・業界のビジネスモデル図、組織図（企業のみ）、KPIツリー、直近のニュースを調べ、ポンチ絵と HTML レポートにまとめる |
+| [x-post](x-post/SKILL.md) | テーマの参考記事を読み、過去の投稿と同じ言い回しで X の投稿文を作る（280ウェイト以内） |
 
 ### セットアップ
 
@@ -15,6 +16,7 @@ Claude Code で使う自作スキル集。
 git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
 ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
 ln -s ~/github/claude-skills/biz-research ~/.claude/skills/biz-research
+ln -s ~/github/claude-skills/x-post ~/.claude/skills/x-post
 pip install playwright && playwright install chromium
 ```
 
@@ -89,4 +91,40 @@ biz-research/
     └── kpi-tree.*         #   KPIツリー
 ```
 
+# x-post
 
+テーマを指定すると、参考記事を探して中身を読み、過去の自分の投稿と同じ言い回しで X の投稿文を作るスキル。選んだ投稿文は、投稿を管理しているスプレッドシートの C 列に追加する。
+
+- **過去の投稿を踏まえる**：過去の投稿と反応のデータから、言い回し・投稿の型・伸びる記事の種類を踏まえて書く
+- **参考記事**：過去に伸びた出所や切り口に近い記事を探し、中身を読んでから書く。紹介済みの記事は除く
+- **文字数**：X の 280ウェイト（半角1・全角2・URL 23）以内で、目安は 230〜280。`scripts/count.py` で数える
+- **スプレッドシートへの追加**：選んだ投稿文を、Google Sheets API で C 列の次の空き行に追加する
+
+「〇〇でXの投稿文を考えて」と頼むか、`/x-post` で呼び出す。
+
+### ファイル構成
+```
+x-post/
+├── SKILL.md                 # 手順・文字数の制限・出力の形・データの更新
+├── references/style.md      # 過去の投稿の分析（言い回し・投稿の型・反応の傾向・お手本）
+├── data/posts.csv           # 過去の投稿と反応（git には入れない）
+├── config.example.json      # スプレッドシートの設定の雛形（config.json にコピーして使う。config.json は git に入れない）
+└── scripts/
+    ├── count.py             # 投稿文のウェイトを数える
+    ├── append_sheet.py      # 投稿文をスプレッドシートの C 列に追加する
+    └── update_posts.py      # 過去の投稿データを、スプレッドシートから作り直す
+```
+
+### 過去の投稿データの更新
+`data/posts.csv` は git に入れていないので、次を実行して作る。スプレッドシートの「ツイートリスト_」で始まるシートをすべて Google Sheets API で読み、毎回作り直す（下の「スプレッドシートの設定」が必要）。
+```bash
+python3 ~/.claude/skills/x-post/scripts/update_posts.py
+```
+
+### スプレッドシートの設定（追加・データの更新に使う）
+1. Google Cloud でプロジェクトを作り、Google Sheets API を有効にする
+2. サービスアカウントを作り、鍵（JSON）を作成して `~/.config/x-post/service_account.json` に保存する
+3. スプレッドシートを、サービスアカウントのメールアドレス（`〜@〜.iam.gserviceaccount.com`）に「編集者」として共有する
+4. `config.example.json` を `config.json` にコピーし、スプレッドシートの ID と追加先のシートの gid を書く
+5. ライブラリを入れる：`pip install google-auth requests`
+6. 書き込まずに確認する：`echo test | python3 ~/.claude/skills/x-post/scripts/append_sheet.py --dry-run`

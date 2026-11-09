@@ -1,0 +1,5 @@
+{
+  "spreadsheet_id": "スプレッドシートのID（URLの /d/ と /edit の間）",
+  "sheet_gid": 0,
+  "credentials": "~/.config/x-post/service_account.json"
+}
