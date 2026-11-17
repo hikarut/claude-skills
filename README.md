@@ -58,6 +58,9 @@ ponchi-e/
 │   ├── compare.*         #   比較表
 │   ├── cases.*           #   事例カード
 │   └── reasons.*         #   3つの理由
+├── references/           # 資料で使う図解・グラフ24選（向いている内容・描き方と、見た目の画像）
+│   ├── charts.md
+│   └── charts_1〜3.*     #   見本の画像と、その元の HTML（SVG）
 └── scripts/
     ├── render.py         # HTML を PNG（2560×1440）に書き出す
     └── undraw.py         # unDraw イラストの検索・取得と色の置き換え（recolor で保存済みの SVG も置き換え）
