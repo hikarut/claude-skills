@@ -8,6 +8,7 @@ Claude Code で使う自作スキル集。
 |---|---|
 | [ponchi-e](ponchi-e/SKILL.md) | 戦略コンサルが作成したような洗練されたポンチ絵を 16:9 の画像（PNG）で作成する |
 | [biz-research](biz-research/SKILL.md) | 企業・業界のビジネスモデル図、組織図（企業のみ）、KPIツリー、直近のニュースを調べ、ポンチ絵と HTML レポートにまとめる |
+| [pptx-export](pptx-export/SKILL.md) | スライドの画像を、見た目に忠実で編集しやすいパワポ（.pptx）に作り直す（Mac では Keynote も可） |
 | [x-post](x-post/SKILL.md) | テーマの参考記事（または貼った URL の記事）を読み、過去の投稿と同じ言い回しで X の投稿文を作る（280ウェイト以内） |
 
 ### セットアップ
@@ -17,7 +18,9 @@ git clone git@github.com:hikarut/claude-skills.git ~/github/claude-skills
 ln -s ~/github/claude-skills/ponchi-e ~/.claude/skills/ponchi-e
 ln -s ~/github/claude-skills/biz-research ~/.claude/skills/biz-research
 ln -s ~/github/claude-skills/x-post ~/.claude/skills/x-post
+ln -s ~/github/claude-skills/pptx-export ~/.claude/skills/pptx-export
 pip install playwright && playwright install chromium
+pip install python-pptx pillow   # pptx-export で使う
 ```
 
 `~/.claude/skills/` にシンボリックリンクを置くので、リポジトリ側でスキルを修正すると Claude Code にもそのまま反映される。最新版への更新は `git pull` で行う。
@@ -90,6 +93,34 @@ biz-research/
     ├── bizgram.*          #   ビジネスモデル図（ビズグラム）
     └── kpi-tree.*         #   KPIツリー
 ```
+
+# pptx-export
+
+スライドの画像（PNG・JPG）を、図形・文字・線を1つずつ置いた編集できるパワポ（.pptx）に作り直すスキル。Mac では Keynote（.key）でも出力できる。画像をそのまま貼るのではなく、文字や色を直接直せるファイルにする。
+
+- **出力の形式**：既定はパワポ。Mac で「Keynote で」と指定すれば Keynote にする
+- **ponchi-e の画像**：同じフォルダにある HTML を描画して、位置・色・文字・改行位置をそのまま読み取る
+- **それ以外の画像**：画像に目盛りを重ねて位置と大きさを読み、色を取り、アイコンや写真は切り出して置く
+- **画像がない場合**：ponchi-e があれば、内容からポンチ絵を作ってから書き出す
+- **確認**：書き出したファイルを画像にし、元の画像と並べて見比べて直す
+
+「この画像をパワポにして」「Keynote にして」「ポンチ絵をパワポで作って」と頼むか、`/pptx-export` で呼び出す。
+
+### ファイル構成
+```
+pptx-export/
+├── SKILL.md                  # 進め方・編集しやすくするルール・スライドの定義（JSON）の書き方・手順
+└── scripts/
+    ├── build.py              # スライドの定義（JSON）からパワポを作り、必要なら Keynote に変換する
+    ├── measure.py            # ponchi-e の HTML を描画して、スライドの定義の下書きを作る
+    ├── inspect_image.py      # 画像に目盛りを重ねる・色を取る・部分を切り出す
+    └── preview.py            # 書き出したファイルを画像にし、元の画像と並べた比較画像を作る
+```
+
+### 必要な環境
+- Python 3、python-pptx、Pillow
+- ponchi-e の HTML から読み取るときは Playwright（Chromium）
+- Keynote への変換と確認用の書き出しは Mac の Keynote（Windows での確認は PowerPoint）。初回は、ターミナルから Keynote を操作する許可を求められることがある
 
 # x-post
 
