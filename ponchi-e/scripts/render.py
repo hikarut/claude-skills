@@ -2,7 +2,18 @@
 """Render a 1280x720 HTML slide to a 16:9 PNG (2x = 2560x1440).
 
   render.py <slide.html> <out.png>
+
+After rendering, it checks the slide and prints warnings:
+  - text smaller than the minimum size (16px; footer 13px)
+  - panels (.soft / .soft-gray / .card) with a large empty area at the bottom
+  - a large empty area below the content
+  - text overflowing the slide
+  - cards and panels with too little inner padding
+  - numbers (.num) larger than 72px
+  - too much text in the content (over 300 characters)
+  - card panels packed too tightly (no room left for the standard card padding)
 """
+import os
 import pathlib
 import sys
 
@@ -11,11 +22,135 @@ from playwright.sync_api import sync_playwright
 if len(sys.argv) != 3:
     sys.exit(__doc__)
 
+MIN_TEXT = 16      # 本文・補足の最小サイズ
+MIN_FOOTER = 13    # 出所・コピーライト
+MAX_GAP = 48       # パネルの下に残してよい空き（px）
+MAX_NUM = 72       # 数字（.num）の最大サイズ（px）
+MAX_CHARS = 300    # コンテンツの文字数の上限
+MIN_SLACK = 0.0    # カードを並べたパネルで、カードの内側の余白（--pad-card）を確保したうえで残す空きの最小割合
+
+CHECK_JS = """
+([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK]) => {
+  const out = [];
+  const isFooter = el => el.closest('.source, .page-info');
+  // 1) 文字の大きさ
+  const small = new Map();
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const t = walker.currentNode; const s = t.textContent.trim();
+    if (!s) continue;
+    const el = t.parentElement; const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+    const fs = parseFloat(cs.fontSize);
+    const min = isFooter(el) ? MIN_FOOTER : MIN_TEXT;
+    if (fs < min - 0.01) {
+      // 単位の添え字（数字の直後の小さな文字）は除く
+      if (el.closest('.num') && s.length <= 3) continue;
+      const k = fs + 'px';
+      if (!small.has(k)) small.set(k, []);
+      if (small.get(k).length < 3) small.get(k).push(s.slice(0, 20));
+    }
+  }
+  for (const [k, v] of small) out.push(`文字が小さい（${k} < ${MIN_TEXT}px）：${v.join(' / ')}`);
+  // 要素の中身が占める上端・下端（子要素の箱。文字だけの要素は文字の行の範囲）
+  const extent = el => {
+    let top = Infinity, bot = -Infinity;
+    const add = q => { if (q.width && q.height) { top = Math.min(top, q.top); bot = Math.max(bot, q.bottom); } };
+    el.querySelectorAll('*').forEach(d => add(d.getBoundingClientRect()));
+    if (!el.children.length) { const rg = document.createRange(); rg.selectNodeContents(el); for (const q of rg.getClientRects()) add(q); }
+    return bot > top ? [top, bot] : null;
+  };
+  // 2) パネル下部の空き（中身が上に寄って、下に空きが固まっている）
+  const panels = document.querySelectorAll('.soft, .soft-gray, [data-panel]');
+  document.querySelectorAll('.soft, .soft-gray, .card, [data-panel]').forEach(p => {
+    const r = p.getBoundingClientRect();
+    if (r.height < 120) return;
+    const e = extent(p); if (!e) return;
+    const [top, bottom] = e;
+    if (bottom > r.bottom + 1) {
+      out.push(`パネルからはみ出し（${Math.round(bottom - r.bottom)}px）：「${(p.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 16)}…」`);
+      return;
+    }
+    const pcs = getComputedStyle(p);
+    const gap = r.bottom - bottom - parseFloat(pcs.paddingBottom);
+    const topGap = top - r.top - parseFloat(pcs.paddingTop);
+    if (gap - topGap > MAX_GAP) {
+      const label = (p.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 16);
+      out.push(`パネルの下に${Math.round(gap)}pxの空き：「${label}…」 → 中身を大きくするか、パネルを詰める`);
+    }
+  });
+  // 2b) 詰まりすぎのパネル：カードを並べたパネルで、カードの中身と内側の余白、要素の間を除いた空きの割合を測る
+  panels.forEach(p => {
+    const kids = [...p.children];
+    if (!kids.some(c => c.classList.contains('card'))) return;
+    const cs = getComputedStyle(p);
+    const inner = p.getBoundingClientRect().height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    let used = (kids.length - 1) * (parseFloat(cs.rowGap) || 0);
+    kids.forEach(c => {
+      const ccs = getComputedStyle(c);
+      if (c.classList.contains('card') || parseFloat(ccs.flexGrow) > 0) {
+        const e = extent(c);
+        used += (e ? e[1] - e[0] : 0) + parseFloat(ccs.paddingTop) + parseFloat(ccs.paddingBottom);
+      } else used += c.getBoundingClientRect().height;
+    });
+    const slack = (inner - used) / inner;
+    if (inner > 200 && slack < MIN_SLACK) {
+      const label = (p.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 16);
+      out.push(`パネルが詰まりすぎ（カードの内側の余白を確保すると${Math.round(-slack * inner)}px足りない）：「${label}…」 → 文字やカードを減らす`);
+    }
+  });
+  // 2d) 内側の余白が狭すぎるカード・パネル
+  document.querySelectorAll('.card, .panel').forEach(el => {
+    const cs = getComputedStyle(el);
+    const v = Math.min(parseFloat(cs.paddingTop), parseFloat(cs.paddingBottom));
+    const h = Math.min(parseFloat(cs.paddingLeft), parseFloat(cs.paddingRight));
+    if (el.getBoundingClientRect().height > 60 && (v < 14 || h < 18))
+      out.push(`内側の余白が狭い（上下${v}px・左右${h}px。カードは上下18px・左右24px、パネルは24px）：「${el.textContent.trim().replace(/\\s+/g, ' ').slice(0, 16)}…」`);
+  });
+  // 2c) 大きすぎる数字
+  document.querySelectorAll('.num').forEach(n => {
+    const fs = parseFloat(getComputedStyle(n).fontSize);
+    if (fs > MAX_NUM) out.push(`数字が大きすぎる（${fs}px > ${MAX_NUM}px）：「${n.textContent.trim()}」`);
+  });
+  // 3) コンテンツ全体の下の空き
+  const content = document.querySelector('.content');
+  if (content) {
+    const r = content.getBoundingClientRect(); let bottom = r.top;
+    content.querySelectorAll('*').forEach(c => { const cr = c.getBoundingClientRect(); if (cr.height) bottom = Math.max(bottom, cr.bottom); });
+    if (r.bottom - bottom > MAX_GAP) out.push(`コンテンツの下に${Math.round(r.bottom - bottom)}pxの空き → 図を大きくする`);
+  }
+  // 3b) 文字数
+  if (content) {
+    const n = content.innerText.replace(/\\s/g, '').length;
+    if (n > MAX_CHARS) out.push(`文字が多い（${n}字 > ${MAX_CHARS}字。目安は200〜250字）→ 説明を短くするか情報を削る`);
+  }
+  // 4) フッター（出所）との重なり
+  const src = document.querySelector('.source');
+  if (content && src && src.textContent.trim()) {
+    const st = src.getBoundingClientRect().top; let cb = 0;
+    content.querySelectorAll('*').forEach(c => { const cr = c.getBoundingClientRect(); if (cr.height) cb = Math.max(cb, cr.bottom); });
+    if (cb > st - 4) out.push(`コンテンツが出所に重なっている（${Math.round(cb - st + 4)}px）`);
+  }
+  // 5) スライドからのはみ出し
+  document.querySelectorAll('.slide *').forEach(el => {
+    const cr = el.getBoundingClientRect();
+    if (cr.width && (cr.right > 1281 || cr.bottom > 721) && el.textContent.trim())
+      out.push(`はみ出し：「${el.textContent.trim().slice(0, 16)}」`);
+  });
+  return [...new Set(out)].slice(0, 20);
+}
+"""
+
 src = pathlib.Path(sys.argv[1]).resolve()
 with sync_playwright() as p:
-    browser = p.chromium.launch()
+    # CHROMIUM_PATH があればそのブラウザを使う（Playwright のブラウザが別の場所にある環境向け）
+    exe = os.environ.get("CHROMIUM_PATH")
+    browser = p.chromium.launch(**({"executable_path": exe} if exe else {}))
     page = browser.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=2)
     page.goto(src.as_uri(), wait_until="networkidle")
     page.screenshot(path=sys.argv[2], clip={"x": 0, "y": 0, "width": 1280, "height": 720})
+    warnings = page.evaluate(CHECK_JS, [MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK])
     browser.close()
 print(sys.argv[2])
+for w in warnings:
+    print("WARN:", w)
