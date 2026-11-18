@@ -8,9 +8,10 @@ After rendering, it checks the slide and prints warnings:
   - panels (.soft / .soft-gray / .card) with a large empty area at the bottom
   - a large empty area below the content
   - text overflowing the slide
+  - cards and panels with too little inner padding
   - numbers (.num) larger than 72px
   - too much text in the content (over 300 characters)
-  - card panels packed too tightly (less than 12% free space)
+  - card panels packed too tightly (no room left for the standard card padding)
 """
 import os
 import pathlib
@@ -26,7 +27,7 @@ MIN_FOOTER = 13    # 出所・コピーライト
 MAX_GAP = 48       # パネルの下に残してよい空き（px）
 MAX_NUM = 72       # 数字（.num）の最大サイズ（px）
 MAX_CHARS = 300    # コンテンツの文字数の上限
-MIN_SLACK = 0.12   # カードを並べたパネルに残す空きの最小割合
+MIN_SLACK = 0.0    # カードを並べたパネルで、カードの内側の余白（--pad-card）を確保したうえで残す空きの最小割合
 
 CHECK_JS = """
 ([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK]) => {
@@ -95,8 +96,16 @@ CHECK_JS = """
     const slack = (inner - used) / inner;
     if (inner > 200 && slack < MIN_SLACK) {
       const label = (p.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 16);
-      out.push(`パネルが詰まりすぎ（空き${Math.round(slack * 100)}% < ${Math.round(MIN_SLACK * 100)}%）：「${label}…」 → 文字を減らす`);
+      out.push(`パネルが詰まりすぎ（カードの内側の余白を確保すると${Math.round(-slack * inner)}px足りない）：「${label}…」 → 文字やカードを減らす`);
     }
+  });
+  // 2d) 内側の余白が狭すぎるカード・パネル
+  document.querySelectorAll('.card, .panel').forEach(el => {
+    const cs = getComputedStyle(el);
+    const v = Math.min(parseFloat(cs.paddingTop), parseFloat(cs.paddingBottom));
+    const h = Math.min(parseFloat(cs.paddingLeft), parseFloat(cs.paddingRight));
+    if (el.getBoundingClientRect().height > 60 && (v < 14 || h < 18))
+      out.push(`内側の余白が狭い（上下${v}px・左右${h}px。カードは上下18px・左右24px、パネルは24px）：「${el.textContent.trim().replace(/\\s+/g, ' ').slice(0, 16)}…」`);
   });
   // 2c) 大きすぎる数字
   document.querySelectorAll('.num').forEach(n => {
