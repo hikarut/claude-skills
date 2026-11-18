@@ -25,36 +25,40 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1280px; height: 720px; background: #fff; overflow: hidden; }
   body {
-    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", "Yu Gothic", sans-serif;
-    color: var(--ink); font-size: 16px; line-height: 1.6;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Noto Sans JP", "Meiryo", "Yu Gothic", sans-serif;
+    color: var(--ink); font-size: 18px; line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
-  .slide { position: relative; width: 1280px; height: 720px; padding: 32px 48px 40px; display: flex; flex-direction: column; }
+  .slide { position: relative; width: 1280px; height: 720px; padding: 24px 32px 36px; display: flex; flex-direction: column; }
 
   /* ヘッダー（タイトル → キーメッセージ）：フォーマット固定 */
-  .header { padding: 0 16px; color: #1a1a1a; }
-  .title { font-size: 38px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
-  .key-message { margin-top: 8px; font-size: 20px; font-weight: 400; line-height: 1.45; word-break: auto-phrase; }  /* <br> は入れず、右端まで使って文節の切れ目で自然に折り返す */
+  .header { padding: 0 8px; color: #1a1a1a; }
+  .title { font-size: 40px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
+  .key-message { margin-top: 6px; font-size: 22px; font-weight: 400; line-height: 1.45; word-break: auto-phrase; }  /* <br> は入れず、右端まで使って文節の切れ目で自然に折り返す */
 
   /* コンテンツ：1枚1メタファーの図を置く領域（position:relative なので絶対配置も可） */
-  .content { position: relative; flex: 1; margin-top: 28px; min-height: 0; }
+  .content { position: relative; flex: 1; margin-top: 18px; min-height: 0; }
 
   /* テキスト */
   .em { color: var(--main); font-weight: 700; }                 /* 本文中の強調語 */
   .key-message .em { white-space: nowrap; }                      /* キーメッセージの強調語は行をまたがせない */
   .strong { font-weight: 700; }
   .nw { white-space: nowrap; }                                   /* 途中で改行させたくない語句 */
-  .small { font-size: 13px; color: var(--sub); }
+  /* 数値：主役の数字は大きく、単位は数字の半分程度に下げる。<span class="num">954<small>%</small></span> */
+  .num { font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; font-feature-settings: "palt"; }
+  .num small { font-size: 0.5em; font-weight: 700; margin-left: 0.04em; letter-spacing: 0; }
+  .num.xl { font-size: 72px; } .num.l { font-size: 48px; } .num.m { font-size: 34px; }
+  .small { font-size: 16px; color: var(--sub); }
   ul.dots { list-style: none; }
   ul.dots li { position: relative; padding-left: 1em; }
   ul.dots li::before { content: "・"; position: absolute; left: -0.1em; }
 
   /* ラベル */
-  .pill { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--pill); color: #fff; font-weight: 700; font-size: 15px; padding: 3px 18px; border-radius: 8px; white-space: nowrap; }
+  .pill { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--pill); color: #fff; font-weight: 700; font-size: 17px; padding: 3px 16px; border-radius: 8px; white-space: nowrap; }
   .pill.main { background: var(--main); }
   .pill.pale { background: var(--tint); color: var(--ink); }
   .pill.round { border-radius: 999px; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gray-bg); border-radius: var(--r-sm); padding: 3px 10px; font-size: 14px; font-weight: 700; margin: 0 6px 6px 0; }  /* 補足のラベル（アイコン可） */
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gray-bg); border-radius: var(--r-sm); padding: 3px 10px; font-size: 16px; font-weight: 700; margin: 0 6px 6px 0; }  /* 補足のラベル（アイコン可） */
   .chip .icon { width: 18px; height: 18px; background: #666; }
 
   /* 面・枠：角丸は --r（面）と --r-sm（小さな箱）の2種類に統一する */
@@ -78,7 +82,7 @@
   .span { position: relative; display: flex; align-items: center; height: 26px; }
   .span::before { content: ""; position: absolute; left: 6px; right: 6px; top: 50%; border-top: 2px solid currentColor; }
   .span::after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%); border-left: 9px solid currentColor; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
-  .span .pill { position: relative; margin: 0 auto; font-size: 13px; padding: 1px 22px; }
+  .span .pill { position: relative; margin: 0 auto; font-size: 16px; padding: 1px 22px; }
 
   /* 太い帯の矢印（左から右への流れ） */
   .band-arrow { background: #f5f5f5; clip-path: polygon(0 0, calc(100% - 44px) 0, calc(100% - 44px) -30%, 100% 50%, calc(100% - 44px) 130%, calc(100% - 44px) 100%, 0 100%); display: flex; align-items: center; justify-content: center; gap: 14px; }
@@ -96,8 +100,8 @@
   .icon.w { background: #fff; }
 
   /* フッター */
-  .source { position: absolute; left: 48px; bottom: 12px; font-size: 12px; color: var(--sub); }
-  .page-info { position: absolute; right: 48px; bottom: 12px; font-size: 12px; color: var(--sub); }
+  .source { position: absolute; left: 32px; bottom: 8px; font-size: 13px; color: var(--sub); }
+  .page-info { position: absolute; right: 32px; bottom: 8px; font-size: 13px; color: var(--sub); }
 </style>
 </head>
 <body>
