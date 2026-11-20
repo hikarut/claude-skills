@@ -12,6 +12,8 @@ After rendering, it checks the slide and prints warnings:
   - numbers (.num) larger than 72px
   - too much text in the content (over 300 characters)
   - card panels packed too tightly (no room left for the standard card padding)
+  - sparse cards (content fills less than half of the card height)
+  - no illustration (<img>) in the content
 """
 import os
 import pathlib
@@ -28,9 +30,10 @@ MAX_GAP = 48       # パネルの下に残してよい空き（px）
 MAX_NUM = 72       # 数字（.num）の最大サイズ（px）
 MAX_CHARS = 300    # コンテンツの文字数の上限
 MIN_SLACK = 0.0    # カードを並べたパネルで、カードの内側の余白（--pad-card）を確保したうえで残す空きの最小割合
+MIN_FILL = 0.5     # カードの中身が占める高さの最小割合（これ未満は間延び）
 
 CHECK_JS = """
-([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK]) => {
+([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL]) => {
   const out = [];
   const isFooter = el => el.closest('.source, .page-info');
   // 1) 文字の大きさ
@@ -107,6 +110,19 @@ CHECK_JS = """
     if (el.getBoundingClientRect().height > 60 && (v < 14 || h < 18))
       out.push(`内側の余白が狭い（上下${v}px・左右${h}px。カードは上下18px・左右24px、パネルは24px）：「${el.textContent.trim().replace(/\\s+/g, ' ').slice(0, 16)}…」`);
   });
+  // 2e) 間延びしたカード：中身がカードの高さの半分に満たない
+  document.querySelectorAll('.card').forEach(c => {
+    const r = c.getBoundingClientRect(); const cs = getComputedStyle(c);
+    const inner = r.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const e = extent(c); if (!e || inner < 60) return;
+    const fill = (e[1] - e[0]) / inner;
+    if (fill < MIN_FILL && inner - (e[1] - e[0]) > 40)
+      out.push(`間延びしたカード（中身が高さの${Math.round(fill * 100)}%）：「${c.textContent.trim().replace(/\\s+/g, ' ').slice(0, 16)}…」 → イラストや数字を大きくする、説明を足す、カードを低くする`);
+  });
+  // 2f) イラスト
+  const content0 = document.querySelector('.content');
+  if (content0 && ![...content0.querySelectorAll('img')].some(i => i.getBoundingClientRect().height >= 80))
+    out.push('イラストがない → unDraw（または examples/il_*.svg）のイラストを1〜3点、高さ120〜200pxで入れる');
   // 2c) 大きすぎる数字
   document.querySelectorAll('.num').forEach(n => {
     const fs = parseFloat(getComputedStyle(n).fontSize);
@@ -149,7 +165,7 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=2)
     page.goto(src.as_uri(), wait_until="networkidle")
     page.screenshot(path=sys.argv[2], clip={"x": 0, "y": 0, "width": 1280, "height": 720})
-    warnings = page.evaluate(CHECK_JS, [MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK])
+    warnings = page.evaluate(CHECK_JS, [MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL])
     browser.close()
 print(sys.argv[2])
 for w in warnings:
