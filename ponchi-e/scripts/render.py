@@ -14,6 +14,8 @@ After rendering, it checks the slide and prints warnings:
   - card panels packed too tightly (no room left for the standard card padding)
   - sparse cards (content fills less than half of the card height)
   - panel headings (.panel > .pill) smaller than 20px
+  - any text larger than 72px, even outside .num
+  - three or more numbers but no chart (<svg>) or pictogram (.person)
   - no picture at all (no illustration and no icon badge) in the content
 """
 import os
@@ -138,6 +140,20 @@ CHECK_JS = """
     const fs = parseFloat(getComputedStyle(n).fontSize);
     if (fs > MAX_NUM) out.push(`数字が大きすぎる（${fs}px > ${MAX_NUM}px）：「${n.textContent.trim()}」`);
   });
+  // .num を使っていない大きすぎる文字（約89%減 などを独自のスタイルで書いた場合）
+  document.querySelectorAll('.content *').forEach(el => {
+    if (el.closest('.num') || ![...el.childNodes].some(c => c.nodeType === 3 && c.textContent.trim())) return;
+    const fs = parseFloat(getComputedStyle(el).fontSize);
+    if (fs > MAX_NUM) out.push(`文字が大きすぎる（${fs}px > ${MAX_NUM}px）：「${el.textContent.trim().slice(0, 12)}」 → .num を使い、前後の文字は <small> で半分にする`);
+  });
+  // 2h) 数字があるのにグラフ・図解がない
+  const c2 = document.querySelector('.content');
+  if (c2) {
+    const nums = (c2.innerText.match(/\\d[\\d,.]*/g) || []).length;
+    const charts = [...c2.querySelectorAll('svg, .person')].filter(e => { const q = e.getBoundingClientRect(); return e.classList.contains('person') || (q.width >= 120 && q.height >= 60); });
+    if (nums >= 3 && !charts.length)
+      out.push(`数字が${nums}個あるのにグラフ・図解がない → SKILL.md の「数字の見せ方」から図を選び、references/charts_*.html の <svg> を使う（人数なら人型 .person）`);
+  }
   // 3) コンテンツ全体の下の空き
   const content = document.querySelector('.content');
   if (content) {
