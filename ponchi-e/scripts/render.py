@@ -13,7 +13,7 @@ After rendering, it checks the slide and prints warnings:
   - too much text in the content (over 300 characters)
   - card panels packed too tightly (no room left for the standard card padding)
   - sparse cards (content fills less than half of the card height)
-  - no illustration (<img>) in the content
+  - no picture at all (no illustration and no icon badge) in the content
 """
 import os
 import pathlib
@@ -119,10 +119,14 @@ CHECK_JS = """
     if (fill < MIN_FILL && inner - (e[1] - e[0]) > 40)
       out.push(`間延びしたカード（中身が高さの${Math.round(fill * 100)}%）：「${c.textContent.trim().replace(/\\s+/g, ' ').slice(0, 16)}…」 → イラストや数字を大きくする、説明を足す、カードを低くする`);
   });
-  // 2f) イラスト
+  // 2f) 絵（アイコンの絵・イラスト）
   const content0 = document.querySelector('.content');
-  if (content0 && ![...content0.querySelectorAll('img')].some(i => i.getBoundingClientRect().height >= 80))
-    out.push('イラストがない → unDraw（または examples/il_*.svg）のイラストを1〜3点、高さ120〜200pxで入れる');
+  if (content0) {
+    const pics = [...content0.querySelectorAll('img, .badge')].filter(i => i.getBoundingClientRect().height >= 48);
+    if (!pics.length) out.push('絵がない → 主な要素にアイコンの絵（.badge）を添える。場面や人を見せたい場所があればイラストを使う');
+    const ill = [...content0.querySelectorAll('img')].filter(i => i.getBoundingClientRect().height >= 80).length;
+    if (ill > 3) out.push(`イラストが多い（${ill}点）→ 0〜2点にし、ほかはアイコンの絵にする（同じ重みの事例カードは項目の数まで可）`);
+  }
   // 2c) 大きすぎる数字
   document.querySelectorAll('.num').forEach(n => {
     const fs = parseFloat(getComputedStyle(n).fontSize);

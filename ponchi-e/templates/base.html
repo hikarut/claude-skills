@@ -113,6 +113,13 @@
   .icon { display: inline-block; width: 30px; height: 30px; background: #555; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; flex: none; }
   .icon.main { background: var(--main); }
   .icon.w { background: #fff; }
+  /* アイコンの絵：淡色の円にアイコンを入れる。--s で大きさ（56〜96px）。主役だけ .main */
+  .badge { --s: 72px; width: var(--s); height: var(--s); border-radius: 50%; background: var(--tint-3); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .badge .icon { width: calc(var(--s) * 0.48); height: calc(var(--s) * 0.48); background: #444; }
+  .badge.main { background: var(--main); }
+  .badge.main .icon { background: #fff; }
+  .badge.gray { background: var(--gray-bg); }   /* 白い面の上で使う */
+  .badge.white { background: #fff; }            /* グレーの面（.soft-gray）の上で使う */
 
   /* フッター */
   .source { position: absolute; left: 40px; bottom: 10px; font-size: 13px; color: var(--sub); }
