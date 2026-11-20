@@ -15,7 +15,7 @@ After rendering, it checks the slide and prints warnings:
   - sparse cards (content fills less than half of the card height)
   - panel headings (.panel > .pill) smaller than 20px
   - any text larger than 72px, even outside .num
-  - three or more numbers but no chart (<svg>) or pictogram (.person)
+  - four or more numbers with the same unit but no chart (<svg>) or pictogram (.person)
   - no picture at all (no illustration and no icon badge) in the content
 """
 import os
@@ -125,7 +125,7 @@ CHECK_JS = """
   // 2f) 絵（アイコンの絵・イラスト）
   const content0 = document.querySelector('.content');
   if (content0) {
-    const pics = [...content0.querySelectorAll('img, .badge')].filter(i => i.getBoundingClientRect().height >= 48);
+    const pics = [...content0.querySelectorAll('img, .badge, .icon, .person')].filter(i => i.getBoundingClientRect().height >= (i.matches('img, .badge') ? 48 : 28));
     if (!pics.length) out.push('絵がない → 主な要素に、その要素を表すイラストかアイコン（.badge）を添える');
     const ill = [...content0.querySelectorAll('img')].filter(i => i.getBoundingClientRect().height >= 80).length;
     if (ill > 3) out.push(`イラストが多い（${ill}点）→ 1〜3点にし、要素と対応しない飾りのイラストは外す`);
@@ -149,10 +149,13 @@ CHECK_JS = """
   // 2h) 数字があるのにグラフ・図解がない
   const c2 = document.querySelector('.content');
   if (c2) {
-    const nums = (c2.innerText.match(/\\d[\\d,.]*/g) || []).length;
+    // 同じ単位の数字が4つ以上並んでいたら、グラフで見せるべき数字の列とみなす
+    const units = {};
+    for (const m of c2.innerText.matchAll(/\\d[\\d,.]*\\s*(?:万|億)?\\s*(名|人|%|％|件|社|円|倍|時間|pt)/g)) units[m[1]] = (units[m[1]] || 0) + 1;
+    const [unit, n] = Object.entries(units).sort((a, b) => b[1] - a[1])[0] || ['', 0];
     const charts = [...c2.querySelectorAll('svg, .person')].filter(e => { const q = e.getBoundingClientRect(); return e.classList.contains('person') || (q.width >= 120 && q.height >= 60); });
-    if (nums >= 3 && !charts.length)
-      out.push(`数字が${nums}個あるのにグラフ・図解がない → SKILL.md の「数字の見せ方」から図を選び、references/charts_*.html の <svg> を使う（人数なら人型 .person）`);
+    if (n >= 4 && !charts.length)
+      out.push(`「${unit}」の数字が${n}個あるのにグラフ・図解がない → SKILL.md の「数字の見せ方」から図を選び、references/charts_*.html の <svg> を使う（人数なら人型 .person）`);
   }
   // 3) コンテンツ全体の下の空き
   const content = document.querySelector('.content');
