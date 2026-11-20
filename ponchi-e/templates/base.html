@@ -72,7 +72,7 @@
   .soft-gray { background: var(--gray-bg); border-radius: var(--r); }                     /* 補助パネル */
   /* パネルとカード：余白は上の変数で統一する。個別のスライドで padding や gap を書き換えない */
   .panel { display: flex; flex-direction: column; gap: var(--gap-card); padding: var(--pad-panel); }   /* .soft / .soft-gray と組み合わせる */
-  .panel > .pill { align-self: flex-start; margin-bottom: 2px; }
+  .panel > .pill { align-self: flex-start; margin-bottom: 2px; font-size: 20px; padding: 4px 18px; }   /* パネルの見出しは大きく */
   .card { background: #fff; border-radius: var(--r-sm); padding: var(--pad-card); }
   .card.fill { flex: 1; display: flex; flex-direction: column; justify-content: center; }             /* 高さをそろえるときだけ使う。中身が少ないカードを引き伸ばさない */
   .card.fill.row { flex-direction: row; align-items: center; justify-content: flex-start; gap: 20px; }  /* 横並び（イラスト＋文字など） */
@@ -101,6 +101,16 @@
 
   /* 太い帯の矢印（左から右への流れ） */
   .band-arrow { background: #f5f5f5; clip-path: polygon(0 0, calc(100% - 44px) 0, calc(100% - 44px) -30%, 100% 50%, calc(100% - 44px) 130%, calc(100% - 44px) 100%, 0 100%); display: flex; align-items: center; justify-content: center; gap: 14px; }
+
+  /* 矢印（要素と要素を結ぶ）：<div class="link main"><span class="lab">ラベル</span><span class="ln"></span></div>
+     結ぶ要素の中央の高さに置き、ラベルは矢印の真上に中央そろえ。--w で長さ */
+  .link { position: relative; display: flex; align-items: center; justify-content: center; }       /* 線が要素の中央の高さに来る */
+  .link .lab { position: absolute; left: 0; right: 0; bottom: calc(50% + 8px); font-size: 16px; font-weight: 700; color: var(--sub); text-align: center; line-height: 1.3; }
+  .link .ln { position: relative; width: var(--w, 36px); height: 2px; background: #999; }
+  .link .ln::after { content: ""; position: absolute; right: -2px; top: -6px; border-left: 11px solid #999; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+  .link.main .lab { color: var(--main); }
+  .link.main .ln { background: var(--main); }
+  .link.main .ln::after { border-left-color: var(--main); }
 
   /* 小さな矢印 */
   .arrow-r { width: 0; height: 0; border-left: 12px solid var(--gray); border-top: 16px solid transparent; border-bottom: 16px solid transparent; }

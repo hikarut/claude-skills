@@ -13,6 +13,7 @@ After rendering, it checks the slide and prints warnings:
   - too much text in the content (over 300 characters)
   - card panels packed too tightly (no room left for the standard card padding)
   - sparse cards (content fills less than half of the card height)
+  - panel headings (.panel > .pill) smaller than 20px
   - no picture at all (no illustration and no icon badge) in the content
 """
 import os
@@ -123,10 +124,15 @@ CHECK_JS = """
   const content0 = document.querySelector('.content');
   if (content0) {
     const pics = [...content0.querySelectorAll('img, .badge')].filter(i => i.getBoundingClientRect().height >= 48);
-    if (!pics.length) out.push('絵がない → 主な要素にアイコンの絵（.badge）を添える。場面や人を見せたい場所があればイラストを使う');
+    if (!pics.length) out.push('絵がない → 主な要素に、その要素を表すイラストかアイコン（.badge）を添える');
     const ill = [...content0.querySelectorAll('img')].filter(i => i.getBoundingClientRect().height >= 80).length;
-    if (ill > 3) out.push(`イラストが多い（${ill}点）→ 0〜2点にし、ほかはアイコンの絵にする（同じ重みの事例カードは項目の数まで可）`);
+    if (ill > 3) out.push(`イラストが多い（${ill}点）→ 1〜3点にし、要素と対応しない飾りのイラストは外す`);
   }
+  // 2g) パネルの見出し（.panel > .pill）が小さい
+  document.querySelectorAll('.panel > .pill').forEach(pl => {
+    const fs = parseFloat(getComputedStyle(pl).fontSize);
+    if (fs < 20) out.push(`パネルの見出しが小さい（${fs}px < 20px）：「${pl.textContent.trim().slice(0, 16)}」`);
+  });
   // 2c) 大きすぎる数字
   document.querySelectorAll('.num').forEach(n => {
     const fs = parseFloat(getComputedStyle(n).fontSize);
