@@ -1,6 +1,8 @@
-<!-- パターン: cases（同じ重みの3項目を、見出し＋説明＋画像のカードで並べる）
-     導入事例・実績・プロフィール・活動紹介など。見出しは濃いグレーの帯、本文はグレーの面。
-     画像はユーザーから受け取った写真・スクリーンショット・書影などを白い枠に入れる（ない場合はイラストで代用）。
+<!-- パターン: cases（同じ重みの2〜3項目を、見出し＋説明＋画像＋結論のカードで並べる）
+     導入事例・実績・プロフィール・活動紹介、理由・特長・ポイントなど。見出しは濃いグレーの帯、本文はグレーの面。
+     理由・特長を並べるときは、見出し帯を「① 理由の一言」にし、最下段のピルを「その結果」などにして、
+     結論の一言でキーメッセージにつなげる。必要ならカードの上に「＜〜の3つの理由＞」の小見出しを置く。
+     画像はユーザーから受け取った写真・スクリーンショット・書影などを白い枠に入れる。ない場合は unDraw から、各項目の中身を表すイラストを1点ずつ選んで入れる（アイコンで代用しない）。
      最下段に成果などの共通の観点を揃えて置く（区切り線は引かず、白い面で分ける） -->
 <style>
   .case { position: absolute; top: 0; width: 384px; height: 510px; display: flex; flex-direction: column; background: var(--gray-bg); border-radius: var(--r); overflow: hidden; }
@@ -9,7 +11,7 @@
   .case p { padding: 18px 24px 0; font-size: 18px; line-height: 1.6; }
   .case-img { margin: 14px 24px 0; flex: 1; min-height: 0; background: #fff; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; }
   .case-img img { height: 160px; }
-  .case-kpi { margin: 14px 24px 24px; padding: 10px 0; background: #fff; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; gap: 14px; flex: none; }
+  .case-kpi { white-space: nowrap; height: 76px; margin: 14px 24px 24px; padding: 0; background: #fff; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; gap: 14px; flex: none; }
   .case-kpi .pill { font-size: 16px; padding: 2px 12px; }
   .case-kpi .lbl { font-size: 19px; font-weight: 700; }
   .case-kpi .num { font-size: 40px; color: #1a1a1a; }
