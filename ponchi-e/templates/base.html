@@ -53,6 +53,10 @@
   /* 数値：主役の数字は大きく、単位は数字の半分程度に下げる。<span class="num">954<small>%</small></span> */
   .num { font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; font-feature-settings: "palt"; }
   .num small { font-size: 0.5em; font-weight: 700; margin-left: 0.04em; letter-spacing: 0; }
+  /* 人型の絵グラフ（charts.md の15）：<span class="people"><span class="person on"></span><span class="person"></span>…</span>。--w で幅 */
+  .people { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+  .person { --w: 22px; width: var(--w); height: calc(var(--w) * 82 / 26); background: var(--gray); -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 82'><circle cx='13' cy='8' r='7.5'/><rect x='6' y='18' width='14' height='30' rx='5'/><rect x='0.5' y='19' width='4.5' height='25' rx='2.25'/><rect x='21' y='19' width='4.5' height='25' rx='2.25'/><rect x='6.5' y='42' width='6' height='40' rx='3'/><rect x='13.5' y='42' width='6' height='40' rx='3'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 82'><circle cx='13' cy='8' r='7.5'/><rect x='6' y='18' width='14' height='30' rx='5'/><rect x='0.5' y='19' width='4.5' height='25' rx='2.25'/><rect x='21' y='19' width='4.5' height='25' rx='2.25'/><rect x='6.5' y='42' width='6' height='40' rx='3'/><rect x='13.5' y='42' width='6' height='40' rx='3'/></svg>") center / contain no-repeat; }
+  .person.on { background: var(--main); }
   .num.xl { font-size: 60px; } .num.l { font-size: 48px; } .num.m { font-size: 34px; }
   .small { font-size: 16px; color: var(--sub); }
   ul.dots { list-style: none; }
