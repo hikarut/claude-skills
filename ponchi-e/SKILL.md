@@ -34,12 +34,12 @@ HTML（1280×720）でスライドを組み、`scripts/render.py` で PNG（2560
 | 内容 | 型（`examples/`） |
 |---|---|
 | サービス・仕組み・構想の概要（何を入れて、何をして、何が得られるか） | `flow` |
-| 導入事例・実績・取り組みを、同じ重みで2〜3つ紹介する | `cases` |
+| 導入事例・実績・取り組みを、同じ重みで2〜3つ紹介する（カードごとに unDraw のイラスト） | `cases` |
 | 中心となる概念と、それを取り巻く要素・関係者 | `hub` |
 | 成熟度・段階・レベルと、対象者やプランの対応 | `levels` |
 | 進め方・ロードマップ・スケジュール | `phases` |
 | 2〜3案（プラン・選択肢）の比較 | `compare` |
-| 理由・特長・ポイントを3つ並べる | `reasons` |
+| 理由・特長・ポイントを3つ並べる（カードごとに unDraw のイラスト） | `reasons` |
 | 数値目標と施策、詳細ロードマップ、短期・中長期のプラン | `goal`・`gantt`・`plans`（画像のみ。PNG を見て組む） |
 
 - **選ぶ前に、候補の型の PNG を Read ツールで開いて見比べる。** 1つに決めたら、その HTML を土台にする。
@@ -60,7 +60,7 @@ HTML（1280×720）でスライドを組み、`scripts/render.py` で PNG（2560
   python3 ~/.claude/skills/ponchi-e/scripts/undraw.py search "data server"
   python3 ~/.claude/skills/ponchi-e/scripts/undraw.py get <URL> <出力先>/il_data.svg
   ```
-  unDraw に接続できないときは、同梱のイラスト（`examples/il_*.svg`：`il_collect` データ・サーバー、`il_act` 人と画面、`il_finance` ビジネスパーソンとグラフ、`il_retail` 買い物、`il_telecom` スマートフォン）を `recolor` で色を合わせて使う。
+  unDraw に接続できないときは、同梱のイラスト（`examples/il_*.svg`：`il_collect` データ・サーバー、`il_act` 人と画面、`il_finance` ビジネスパーソンとグラフ、`il_retail` 買い物、`il_telecom` スマートフォン、`il_segments` 顧客の区分、`il_options` 選択肢、`il_warning` 警告）を `recolor` で色を合わせて使う。
   ```bash
   python3 ~/.claude/skills/ponchi-e/scripts/undraw.py recolor ~/.claude/skills/ponchi-e/examples/il_collect.svg <出力先>/il_collect.svg
   ```
