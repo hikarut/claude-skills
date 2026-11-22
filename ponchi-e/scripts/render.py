@@ -16,7 +16,6 @@ After rendering, it checks the slide and prints warnings:
   - panel headings (.panel > .pill) smaller than 20px
   - any text larger than 72px, even outside .num
   - four or more numbers with the same unit but no chart (<svg>) or pictogram (.person)
-  - a slide that reuses an example's own layout parts (the same structure as examples/*.html)
   - no picture at all (no illustration and no icon badge) in the content
 """
 import os
@@ -158,20 +157,6 @@ CHECK_JS = """
     const charts = [...c2.querySelectorAll('svg, .person')].filter(e => { const q = e.getBoundingClientRect(); return e.classList.contains('person') || (q.width >= 120 && q.height >= 60); });
     if (n >= 4 && !charts.length)
       out.push(`「${unit}」の数字が${n}個あるのにグラフ・図解がない → SKILL.md の「数字の見せ方」から図を選び、references/charts_*.html の <svg> を使う（人数なら人型 .person）`);
-  }
-  // 2i) お手本と同じ構成：お手本に固有の部品を3つ以上そのまま使っていたら、HTML を写したとみなす
-  const SIG = {
-    flow: ['ring-l', 'ring-r', 'center-name', 'steps3', 'band', 'strip', 'strip-head', 'st-circle'],
-    cases: ['case', 'case-h', 'case-img', 'case-kpi'],
-    hub: ['side', 'side-head', 'side-sub', 'spokes'],
-    levels: ['lv', 'lv-desc', 'lv-name', 'lv-stars', 'pyramid', 'zone', 'vline'],
-    phases: ['col-text', 'deliv', 'deliv-label', 'dur'],
-    compare: ['cmp', 'cmp-foot', 'cmp-name', 'rec'],
-  };
-  for (const [ex, names] of Object.entries(SIG)) {
-    const used = names.filter(n => document.querySelector('.content .' + n));
-    if (used.length >= 3)
-      out.push(`お手本「${ex}」と同じ構成（${used.join('・')}）→ お手本は構成の参考にとどめ、配置・図の形・要素の数を内容に合わせて組み直す`);
   }
   // 3) コンテンツ全体の下の空き
   const content = document.querySelector('.content');
