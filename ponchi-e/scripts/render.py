@@ -10,7 +10,7 @@ After rendering, it checks the slide and prints warnings:
   - text overflowing the slide
   - cards and panels with too little inner padding
   - numbers (.num) larger than 72px
-  - too much text in the content (over 300 characters)
+  - too much or too little text in the content (over 500 / under 300 characters)
   - card panels packed too tightly (no room left for the standard card padding)
   - sparse cards (content fills less than half of the card height)
   - panel headings (.panel > .pill) smaller than 20px
@@ -31,12 +31,13 @@ MIN_TEXT = 16      # 本文・補足の最小サイズ
 MIN_FOOTER = 13    # 出所・コピーライト
 MAX_GAP = 48       # パネルの下に残してよい空き（px）
 MAX_NUM = 72       # 数字（.num）の最大サイズ（px）
-MAX_CHARS = 300    # コンテンツの文字数の上限
+MAX_CHARS = 500    # コンテンツの文字数の上限
+MIN_CHARS = 300    # コンテンツの文字数の下限（これ未満は情報が足りない）
 MIN_SLACK = 0.0    # カードを並べたパネルで、カードの内側の余白（--pad-card）を確保したうえで残す空きの最小割合
 MIN_FILL = 0.5     # カードの中身が占める高さの最小割合（これ未満は間延び）
 
 CHECK_JS = """
-([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL]) => {
+([MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL, MIN_CHARS]) => {
   const out = [];
   const isFooter = el => el.closest('.source, .page-info');
   // 1) 文字の大きさ
@@ -167,7 +168,8 @@ CHECK_JS = """
   // 3b) 文字数
   if (content) {
     const n = content.innerText.replace(/\\s/g, '').length;
-    if (n > MAX_CHARS) out.push(`文字が多い（${n}字 > ${MAX_CHARS}字。目安は200〜250字）→ 説明を短くするか情報を削る`);
+    if (n > MAX_CHARS) out.push(`文字が多い（${n}字 > ${MAX_CHARS}字。目安は350〜450字）→ 言い回しを短くする`);
+    if (n < MIN_CHARS) out.push(`情報が少ない（${n}字 < ${MIN_CHARS}字。目安は350〜450字）→ 各要素に中身・具体例・補足・示唆を足す`);
   }
   // 4) フッター（出所）との重なり
   const src = document.querySelector('.source');
@@ -194,7 +196,7 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=2)
     page.goto(src.as_uri(), wait_until="networkidle")
     page.screenshot(path=sys.argv[2], clip={"x": 0, "y": 0, "width": 1280, "height": 720})
-    warnings = page.evaluate(CHECK_JS, [MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL])
+    warnings = page.evaluate(CHECK_JS, [MIN_TEXT, MIN_FOOTER, MAX_GAP, MAX_NUM, MAX_CHARS, MIN_SLACK, MIN_FILL, MIN_CHARS])
     browser.close()
 print(sys.argv[2])
 for w in warnings:
